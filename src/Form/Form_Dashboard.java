@@ -4,6 +4,7 @@
  */
 package Form;
 
+import DBContext.OrderDB;
 import DBContext.ProductDB;
 import Model.Product;
 import java.text.DecimalFormat;
@@ -94,6 +95,11 @@ public class Form_Dashboard extends javax.swing.JFrame {
         btn_checkout.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         btn_checkout.setForeground(new java.awt.Color(255, 255, 255));
         btn_checkout.setText("Thanh toán");
+        btn_checkout.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_checkoutActionPerformed(evt);
+            }
+        });
 
         btn_cancel.setText("Hủy");
         btn_cancel.addActionListener(new java.awt.event.ActionListener() {
@@ -316,6 +322,10 @@ public class Form_Dashboard extends javax.swing.JFrame {
         renderSelectedProductTable();
         renderTotalPaymentLabel();
     }//GEN-LAST:event_btn_cancelActionPerformed
+
+    private void btn_checkoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_checkoutActionPerformed
+        handleCheckout();
+    }//GEN-LAST:event_btn_checkoutActionPerformed
     
     
     // Helper
@@ -372,7 +382,19 @@ public class Form_Dashboard extends javax.swing.JFrame {
     }
     
     private void handleCheckout() {
-        
+        try {
+            boolean result = OrderDB.createOrder(selectedProducts);
+            
+            if (result) {
+                JOptionPane.showMessageDialog(this, "Thêm thành công");
+                
+                selectedProducts.clear();
+                renderSelectedProductTable();
+                renderTotalPaymentLabel();
+            }
+        } catch (Exception e) {
+             JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     /**
