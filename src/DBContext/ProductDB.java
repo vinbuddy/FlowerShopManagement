@@ -22,7 +22,7 @@ public class ProductDB {
 
         try {
             connection = DBConnection.getConnection();
-            String sql = "SELECT * FROM Products";
+            String sql = "SELECT * FROM Products LEFT JOIN DiscountProducts ON DiscountProducts.ProductId = Products.Id";
             stmt = connection.prepareStatement(sql);
             rs = stmt.executeQuery();
 
@@ -30,13 +30,18 @@ public class ProductDB {
                 Product product = new Product();
 
                 product.setId(rs.getInt("Id"));
-                product.setSupplierId(rs.getInt("SupplierId")); 
+                product.setSupplierId(rs.getInt("SupplierId"));
                 product.setName(rs.getString("Name"));
-                product.setPrice(rs.getDouble("Price"));
+                product.setPrice(rs.getBigDecimal("Price").doubleValue());
+                if (rs.getObject("DiscountPrice") != null) {
+                    product.setDiscountPrice(rs.getBigDecimal("DiscountPrice").doubleValue());
+                } else {
+                    product.setDiscountPrice(0.0); 
+                }
                 product.setQuantity(rs.getInt("Quantity"));
                 product.setStatus(rs.getString("Status"));
-                product.setDescription(rs.getString("Description")); 
-                product.setImage(rs.getString("Image")); 
+                product.setDescription(rs.getString("Description"));
+                product.setImage(rs.getString("Image"));
 
                 data.add(product);
             }
@@ -48,6 +53,5 @@ public class ProductDB {
 
         return data;
     }
-    
-}
 
+}

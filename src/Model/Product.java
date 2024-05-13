@@ -16,6 +16,17 @@ public class Product {
     public double Price;
     public int Quantity;
     public String Status;
+    public String Description;
+    public String Image;
+    public double DiscountPrice;
+
+    public double getDiscountPrice() {
+        return DiscountPrice;
+    }
+
+    public void setDiscountPrice(double DiscountPrice) {
+        this.DiscountPrice = DiscountPrice;
+    }
 
     public int getId() {
         return Id;
@@ -80,6 +91,9 @@ public class Product {
     public void setImage(String Image) {
         this.Image = Image;
     }
-    public String Description;
-    public String Image;
+    
+    public double calculateTotalPrice() {
+        return Quantity * Price;
+    }
+    
 }
