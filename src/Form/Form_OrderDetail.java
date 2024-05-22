@@ -4,17 +4,41 @@
  */
 package Form;
 
+import DBContext.OrderDB;
+import Model.Order;
+import Model.OrderDetail;
+import Model.ShippingOrder;
+import Shared.Utils;
+import java.awt.Component;
+import java.awt.Image;
+import java.util.ArrayList;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author MSI
  */
 public class Form_OrderDetail extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Form_Order
-     */
-    public Form_OrderDetail() {
+    Order order = new Order();
+    ArrayList<OrderDetail> orderDetails = new ArrayList<>();
+
+    public Form_OrderDetail(Order order) {
         initComponents();
+
+        if (order != null) {
+            this.order = order;
+        }
+
+        renderOrderInfo();
+        renderOrderItemTable();
+        renderOrderShipping();
+
     }
 
     /**
@@ -29,34 +53,34 @@ public class Form_OrderDetail extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
+        label_order_id = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
+        label_order_status = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
+        label_order_date = new javax.swing.JLabel();
+        label_receive_date = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
-        jLabel11 = new javax.swing.JLabel();
+        label_receive_time = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
-        jLabel13 = new javax.swing.JLabel();
+        label_order_note = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        table_order_items = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
         jLabel14 = new javax.swing.JLabel();
-        jLabel15 = new javax.swing.JLabel();
+        label_customer_name = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
-        jLabel17 = new javax.swing.JLabel();
+        label_customer_phone = new javax.swing.JLabel();
         jLabel18 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        text_area_address = new javax.swing.JTextArea();
         jPanel3 = new javax.swing.JPanel();
         jLabel19 = new javax.swing.JLabel();
-        jLabel20 = new javax.swing.JLabel();
+        label_shipping_cost = new javax.swing.JLabel();
         jLabel21 = new javax.swing.JLabel();
-        jLabel22 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        jButton1 = new javax.swing.JButton();
+        label_total_payment = new javax.swing.JLabel();
+        combobox_order_status = new javax.swing.JComboBox<>();
+        btn_update_order_status = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         MenuAccount = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -77,27 +101,27 @@ public class Form_OrderDetail extends javax.swing.JFrame {
 
         jLabel2.setText("Mã đơn hàng:");
 
-        jLabel3.setText("#34");
+        label_order_id.setText("#34");
 
         jLabel4.setText("Trạng thái:");
 
-        jLabel5.setText("Hoàn thành");
+        label_order_status.setText("Hoàn thành");
 
         jLabel6.setText("Ngày đặt:");
 
-        jLabel7.setText("12-2-2024");
+        label_order_date.setText("12-2-2024");
 
-        jLabel8.setText("13-3-2024");
+        label_receive_date.setText("13-3-2024");
 
         jLabel9.setText("Ngày giao:");
 
         jLabel10.setText("Giờ giao:");
 
-        jLabel11.setText("9h-10h");
+        label_receive_time.setText("9h-10h");
 
         jLabel12.setText("Ghi chú:");
 
-        jLabel13.setText("Giao sớm nhé");
+        label_order_note.setText("Giao sớm nhé");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -114,12 +138,12 @@ public class Form_OrderDetail extends javax.swing.JFrame {
                     .addComponent(jLabel12))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(label_order_status, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(label_order_id, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(label_order_date, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(label_receive_date, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(label_receive_time, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(label_order_note, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -128,60 +152,60 @@ public class Form_OrderDetail extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jLabel3))
+                    .addComponent(label_order_id))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(jLabel5))
+                    .addComponent(label_order_status))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
-                    .addComponent(jLabel7))
+                    .addComponent(label_order_date))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9)
-                    .addComponent(jLabel8))
+                    .addComponent(label_receive_date))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel11)
+                    .addComponent(label_receive_time)
                     .addComponent(jLabel10))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel13)
+                    .addComponent(label_order_note)
                     .addComponent(jLabel12))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jScrollPane1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(102, 102, 102)));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        table_order_items.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Hình ảnh", "Tên sản phẩm", "Số lượng", "Đơn giá", "Thành tiền"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(table_order_items);
 
         jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(102, 102, 102)));
 
         jLabel14.setText("Tên người nhận:");
 
-        jLabel15.setText("Nguyễn Văn A");
+        label_customer_name.setText("Nguyễn Văn A");
 
         jLabel16.setText("Số điện thoại:");
 
-        jLabel17.setText("039220224");
+        label_customer_phone.setText("039220224");
 
         jLabel18.setText("Địa chỉ:");
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane2.setViewportView(jTextArea1);
+        text_area_address.setColumns(20);
+        text_area_address.setRows(5);
+        jScrollPane2.setViewportView(text_area_address);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -195,8 +219,8 @@ public class Form_OrderDetail extends javax.swing.JFrame {
                     .addComponent(jLabel18))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel17, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(label_customer_phone, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(label_customer_name, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jScrollPane2))
                 .addContainerGap())
         );
@@ -206,11 +230,11 @@ public class Form_OrderDetail extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel14)
-                    .addComponent(jLabel15))
+                    .addComponent(label_customer_name))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel16)
-                    .addComponent(jLabel17))
+                    .addComponent(label_customer_phone))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel18)
@@ -222,13 +246,13 @@ public class Form_OrderDetail extends javax.swing.JFrame {
 
         jLabel19.setText("Phí vận chuyển:");
 
-        jLabel20.setText("0 đ");
+        label_shipping_cost.setText("0 đ");
 
         jLabel21.setText("Tổng tiền:");
 
-        jLabel22.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel22.setForeground(new java.awt.Color(255, 173, 173));
-        jLabel22.setText("500.000 đ");
+        label_total_payment.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        label_total_payment.setForeground(new java.awt.Color(255, 173, 173));
+        label_total_payment.setText("500.000 đ");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -241,8 +265,8 @@ public class Form_OrderDetail extends javax.swing.JFrame {
                     .addComponent(jLabel21))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel22, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel20, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(label_total_payment, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(label_shipping_cost, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
@@ -251,17 +275,22 @@ public class Form_OrderDetail extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel19)
-                    .addComponent(jLabel20))
+                    .addComponent(label_shipping_cost))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel21)
-                    .addComponent(jLabel22))
+                    .addComponent(label_total_payment))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Đang chờ", "Đang xử lý", "Đang giao", "Hoàn thành", "Đã hủy" }));
+        combobox_order_status.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Đang chờ", "Đang xử lý", "Đang giao", "Hoàn thành", "Đã hủy" }));
 
-        jButton1.setText("Cập nhật trạng thái");
+        btn_update_order_status.setText("Cập nhật trạng thái");
+        btn_update_order_status.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_update_order_statusActionPerformed(evt);
+            }
+        });
 
         MenuAccount.setText("Tài khoản");
 
@@ -301,9 +330,9 @@ public class Form_OrderDetail extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 236, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(combobox_order_status, javax.swing.GroupLayout.PREFERRED_SIZE, 236, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(btn_update_order_status, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -326,14 +355,98 @@ public class Form_OrderDetail extends javax.swing.JFrame {
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jComboBox1)
-                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(combobox_order_status)
+                            .addComponent(btn_update_order_status, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 439, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btn_update_order_statusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_update_order_statusActionPerformed
+        try {
+            String status = combobox_order_status.getSelectedItem().toString();
+            boolean result = OrderDB.updateOrderStatus(order.Id, status);
+
+            if (result) {
+                JOptionPane.showMessageDialog(this, "Cập nhật thành công", "Success", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(this, "Thất bại", "Error", JOptionPane.ERROR_MESSAGE);
+
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btn_update_order_statusActionPerformed
+
+    private void renderOrderInfo() {
+        label_order_id.setText(String.valueOf(order.getId()));
+        label_order_status.setText(order.getStatus());
+        label_order_date.setText(order.getOrderDate());
+        label_receive_date.setText(order.getReceiveDate());
+        label_receive_time.setText(order.getReceiveTime());
+        label_order_note.setText(order.getNote());
+        label_shipping_cost.setText(Utils.formatVNCurrency(order.ShippingCost));
+        label_total_payment.setText(Utils.formatVNCurrency(order.getTotalPayment()));
+    }
+
+    private void renderOrderShipping() {
+        try {
+            ShippingOrder shippingOrder = OrderDB.getShippingOrder(order.getId());
+
+            if (shippingOrder != null) {
+                label_customer_name.setText(shippingOrder.getFullName());
+                label_customer_phone.setText(shippingOrder.getPhoneNumber());
+                
+                if (shippingOrder.getAddress() != null && shippingOrder.getWard() != null && shippingOrder.getDistrict() != null && shippingOrder.getCity() != null) {
+                    String address = shippingOrder.getAddress() + ", " + shippingOrder.getWard() + " ," + shippingOrder.getDistrict() + " ," + shippingOrder.getCity();
+                    text_area_address.setText(address);
+                }
+
+               
+            }
+        } catch (Exception e) {
+        }
+    }
+
+    private void renderOrderItemTable() {
+        DefaultTableModel tableModel = (DefaultTableModel) table_order_items.getModel();
+        orderDetails.clear();
+        tableModel.setRowCount(0);
+
+        try {
+            orderDetails = OrderDB.getOrderDetails(order.getId());
+
+            for (OrderDetail orderItem : orderDetails) {
+                tableModel.addRow(new Object[]{
+                    orderItem.getProductImage(),
+                    orderItem.getProductName(),
+                    orderItem.getQuantity(),
+                    Utils.formatVNCurrency(orderItem.OrderPrice),
+                    Utils.formatVNCurrency(orderItem.getTotalOrderPrice()),});
+            }
+
+            table_order_items.setRowHeight(50);
+            table_order_items.getTableHeader().setReorderingAllowed(false);
+
+            table_order_items.getColumnModel().getColumn(0).setCellRenderer(new ImageRender());
+
+        } catch (Exception e) {
+        }
+    }
+
+    private class ImageRender extends DefaultTableCellRenderer {
+
+        @Override
+        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+            String photoName = value.toString();
+            ImageIcon imageIcon = new ImageIcon(new ImageIcon("src/Images/" + photoName).getImage().getScaledInstance(40, 40, Image.SCALE_DEFAULT));
+
+            return new JLabel(imageIcon);
+        }
+
+    }
 
     /**
      * @param args the command line arguments
@@ -366,7 +479,7 @@ public class Form_OrderDetail extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Form_OrderDetail().setVisible(true);
+                new Form_OrderDetail(null).setVisible(true);
             }
         });
     }
@@ -379,29 +492,19 @@ public class Form_OrderDetail extends javax.swing.JFrame {
     private javax.swing.JMenu MenuProduct;
     private javax.swing.JMenu MenuStats;
     private javax.swing.JMenu MenuSupplier;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JButton btn_update_order_status;
+    private javax.swing.JComboBox<String> combobox_order_status;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
-    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
-    private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
-    private javax.swing.JLabel jLabel22;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
@@ -410,7 +513,17 @@ public class Form_OrderDetail extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JLabel label_customer_name;
+    private javax.swing.JLabel label_customer_phone;
+    private javax.swing.JLabel label_order_date;
+    private javax.swing.JLabel label_order_id;
+    private javax.swing.JLabel label_order_note;
+    private javax.swing.JLabel label_order_status;
+    private javax.swing.JLabel label_receive_date;
+    private javax.swing.JLabel label_receive_time;
+    private javax.swing.JLabel label_shipping_cost;
+    private javax.swing.JLabel label_total_payment;
+    private javax.swing.JTable table_order_items;
+    private javax.swing.JTextArea text_area_address;
     // End of variables declaration//GEN-END:variables
 }
