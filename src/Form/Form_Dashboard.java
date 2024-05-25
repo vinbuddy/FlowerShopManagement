@@ -4,8 +4,10 @@
  */
 package Form;
 
+import DBContext.CategoryDB;
 import DBContext.OrderDB;
 import DBContext.ProductDB;
+import Model.Category;
 import Model.Product;
 import java.awt.Component;
 import java.awt.Image;
@@ -29,6 +31,7 @@ public class Form_Dashboard extends javax.swing.JFrame {
     
     ArrayList<Product> products = new ArrayList<>();
     ArrayList<Product> selectedProducts = new ArrayList<>();
+     ArrayList<Category> categories = new ArrayList<>();
     DecimalFormatSymbols symbols = new DecimalFormatSymbols(new Locale("vi", "VN"));
     DecimalFormat decimalFormat = new DecimalFormat("#,##0.00 ₫", symbols);
     
@@ -38,6 +41,7 @@ public class Form_Dashboard extends javax.swing.JFrame {
     public Form_Dashboard() {
         initComponents();
         
+        renderCategoryCombobox();
         renderProductTable();
         renderTotalPaymentLabel();
         spinner_quantity.setValue(INIT_QUANTITY);
@@ -67,6 +71,7 @@ public class Form_Dashboard extends javax.swing.JFrame {
         txt_searchbox = new javax.swing.JTextField();
         btn_search = new javax.swing.JButton();
         btn_select = new javax.swing.JButton();
+        combobox_category = new javax.swing.JComboBox<>();
         jMenuBar1 = new javax.swing.JMenuBar();
         MenuAccount = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -238,23 +243,24 @@ public class Form_Dashboard extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(36, 36, 36)
-                        .addComponent(btn_select, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(txt_searchbox)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(btn_search, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 407, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 478, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(36, 36, 36)
+                                .addComponent(btn_select, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 407, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 478, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(txt_searchbox, javax.swing.GroupLayout.PREFERRED_SIZE, 668, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(combobox_category, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btn_search, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -263,7 +269,8 @@ public class Form_Dashboard extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(txt_searchbox, javax.swing.GroupLayout.DEFAULT_SIZE, 38, Short.MAX_VALUE)
-                    .addComponent(btn_search, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                    .addComponent(btn_search, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(combobox_category))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 428, Short.MAX_VALUE)
@@ -348,12 +355,26 @@ public class Form_Dashboard extends javax.swing.JFrame {
         products.clear();
         tableModel.setRowCount(0);
         
-        String searchValue = txt_searchbox.getText();
+        String searchValue = txt_searchbox.getText().toString().equals(search_placeholder) ? "" : txt_searchbox.getText(); 
+        String categoryName = (String) combobox_category.getSelectedItem();
+
+        Category currentCategory = getCategoryByName(categoryName);
+        String currentCategoryName = currentCategory == null ? "Tất cả" : currentCategory.getCategoryName();
+        
+        
         try {
-            if (searchValue.length() > 0 && searchValue.equals(search_placeholder)) {
-                products = ProductDB.getProducts();
+            if (currentCategoryName == "Tất cả") {
+                if (searchValue == "" || searchValue.equals(search_placeholder)) {
+                    products = ProductDB.getProducts();
+                    
+                    System.out.println(products.size());
+                } else {
+
+                    products = (ArrayList<Product>) ProductDB.getProducts().stream().filter(item -> item.getName().toLowerCase().contains(searchValue.toLowerCase())).collect(Collectors.toList());
+                }
+
             } else {
-                products = (ArrayList<Product>) ProductDB.getProducts().stream().filter(item -> item.getName().toLowerCase().contains(searchValue.toLowerCase())).collect(Collectors.toList());
+                products = ProductDB.getProductsByCategoryIdAndName(currentCategory.getId(), searchValue);
             }
             
             for (Product product : products) {
@@ -387,6 +408,26 @@ public class Form_Dashboard extends javax.swing.JFrame {
         }
 
        
+    }
+    
+    private Category getCategoryByName(String categoryName) {
+        return categories.stream()
+                .filter(product -> product.getCategoryName().equals(categoryName))
+                .findFirst()
+                .orElse(null);
+    }
+    
+    private void renderCategoryCombobox() {
+
+        try {
+            categories = CategoryDB.getCategories();
+
+            combobox_category.addItem("Tất cả");
+            for (Category category : categories) {
+                combobox_category.addItem(category.getCategoryName());
+            }
+        } catch (Exception e) {
+        }
     }
     
     private void renderSelectedProductTable() {
@@ -476,6 +517,7 @@ public class Form_Dashboard extends javax.swing.JFrame {
     private javax.swing.JButton btn_checkout;
     private javax.swing.JButton btn_search;
     private javax.swing.JButton btn_select;
+    private javax.swing.JComboBox<String> combobox_category;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JMenuBar jMenuBar1;

@@ -4,17 +4,29 @@
  */
 package Form;
 
+import DBContext.SupplierDB;
+import Model.Supplier;
+import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author MSI
  */
 public class Form_Supplier extends javax.swing.JFrame {
 
+    ArrayList<Supplier> suppliers = new ArrayList<>();
+
     /**
      * Creates new form Form_Supplier
      */
     public Form_Supplier() {
         initComponents();
+
+        renderTable();
     }
 
     /**
@@ -30,16 +42,16 @@ public class Form_Supplier extends javax.swing.JFrame {
         jTextArea1 = new javax.swing.JTextArea();
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        table_supplier = new javax.swing.JTable();
         jLabel3 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        txt_name = new javax.swing.JTextField();
+        btn_add = new javax.swing.JButton();
+        btn_edit = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
+        txt_phone = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTextArea2 = new javax.swing.JTextArea();
+        text_area_address = new javax.swing.JTextArea();
         jMenuBar1 = new javax.swing.JMenuBar();
         MenuAccount = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -62,7 +74,7 @@ public class Form_Supplier extends javax.swing.JFrame {
 
         jScrollPane1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        table_supplier.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -70,24 +82,39 @@ public class Form_Supplier extends javax.swing.JFrame {
                 {null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Mã nhà cung cấp", "Tên nhà cung cấp", "Số điện thoại", "Địa chỉ"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        table_supplier.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                table_supplierMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(table_supplier);
 
         jLabel3.setText("Tên nhà cung cấp");
 
-        jButton1.setText("Thêm");
+        btn_add.setText("Thêm");
+        btn_add.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_addActionPerformed(evt);
+            }
+        });
 
-        jButton2.setText("Sửa");
+        btn_edit.setText("Sửa");
+        btn_edit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_editActionPerformed(evt);
+            }
+        });
 
         jLabel4.setText("Số điện thoại");
 
         jLabel5.setText("Địa chỉ");
 
-        jTextArea2.setColumns(20);
-        jTextArea2.setRows(5);
-        jScrollPane3.setViewportView(jTextArea2);
+        text_area_address.setColumns(20);
+        text_area_address.setRows(5);
+        jScrollPane3.setViewportView(text_area_address);
 
         MenuAccount.setText("Tài khoản");
 
@@ -127,7 +154,7 @@ public class Form_Supplier extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel3)
                         .addGap(18, 18, 18)
-                        .addComponent(jTextField2))
+                        .addComponent(txt_name))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addGap(0, 0, Short.MAX_VALUE))
@@ -138,10 +165,10 @@ public class Form_Supplier extends javax.swing.JFrame {
                         .addGap(41, 41, 41)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 373, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(btn_add, javax.swing.GroupLayout.PREFERRED_SIZE, 373, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addComponent(jTextField3, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(btn_edit, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(txt_phone, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.LEADING))
                         .addGap(2, 2, 2)))
                 .addContainerGap())
@@ -156,24 +183,149 @@ public class Form_Supplier extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txt_name, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(14, 14, 14)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txt_phone, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel5)
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(13, 13, 13)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(12, Short.MAX_VALUE))
+                    .addComponent(btn_add, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_edit, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(13, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btn_editActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_editActionPerformed
+        int currentIndex = table_supplier.getSelectedRow();
+
+        try {
+            if (currentIndex >= 0) {
+                Supplier currentSupplier = suppliers.get(currentIndex);
+
+                boolean result = SupplierDB.editSupplier(currentSupplier);
+
+                if (result) {
+                    JOptionPane.showMessageDialog(this, "Cập nhật thành công", "Success", JOptionPane.INFORMATION_MESSAGE);
+                    clearInputs();
+                    renderTable();
+                } else {
+                    JOptionPane.showMessageDialog(this, "Thất bại", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btn_editActionPerformed
+
+    private void btn_addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_addActionPerformed
+        try {
+            boolean isValid = validateData();
+
+            if (!isValid) {
+                return;
+            }
+
+            Supplier supplier = new Supplier();
+            supplier.setName(txt_name.getText());
+            supplier.setPhoneNumber(txt_phone.getText());
+            supplier.setAddress(text_area_address.getText());
+
+            boolean result = SupplierDB.createSupplier(supplier);
+
+            if (result) {
+                JOptionPane.showMessageDialog(this, "Thêm thành công", "Success", JOptionPane.INFORMATION_MESSAGE);
+                renderTable();
+                clearInputs();
+            } else {
+                JOptionPane.showMessageDialog(this, "Thất bại", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btn_addActionPerformed
+
+    private void table_supplierMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_table_supplierMouseClicked
+        int currentIndex = table_supplier.getSelectedRow();
+
+        try {
+            if (currentIndex >= 0) {
+                Supplier currentSupplier = suppliers.get(currentIndex);
+
+                txt_name.setText(currentSupplier.getName());
+                txt_phone.setText(currentSupplier.getPhoneNumber());
+                text_area_address.setText(currentSupplier.getAddress());
+
+            }
+        } catch (Exception e) {
+        }
+    }//GEN-LAST:event_table_supplierMouseClicked
+
+    private void clearInputs() {
+        txt_name.setText("");
+        txt_phone.setText("");
+        text_area_address.setText("");
+    }
+
+    private boolean validateData() {
+
+        String name = txt_name.getText().trim();
+        String phoneNumber = txt_phone.getText().trim();
+        String address = text_area_address.getText().trim();
+
+        if (address.isEmpty() || name.isEmpty() || address.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Hãy nhập đầy đủ thông tin.", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+
+        try {
+
+            String phoneNumberRegex = "^(03|05|07|08|09|02[0-9])+([0-9]{8})$";
+            Pattern pattern = Pattern.compile(phoneNumberRegex);
+            Matcher matcher = pattern.matcher(phoneNumber);
+
+            boolean isMatched = matcher.matches();
+
+            if (!isMatched) {
+                JOptionPane.showMessageDialog(this, "Số điện thoại không đúng định dạng.", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                return false;
+            }
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+
+        return true;
+
+    }
+
+    private void renderTable() {
+        DefaultTableModel tableModel = (DefaultTableModel) table_supplier.getModel();
+        suppliers.clear();
+        tableModel.setRowCount(0);
+
+        try {
+            suppliers = SupplierDB.getSuppliers();
+
+            for (Supplier item : suppliers) {
+                tableModel.addRow(new Object[]{
+                    item.getId(),
+                    item.getName(),
+                    item.getPhoneNumber(),
+                    item.getAddress()
+                });
+            }
+        } catch (Exception e) {
+        }
+    }
 
     /**
      * @param args the command line arguments
@@ -218,8 +370,8 @@ public class Form_Supplier extends javax.swing.JFrame {
     private javax.swing.JMenu MenuProduct;
     private javax.swing.JMenu MenuStats;
     private javax.swing.JMenu MenuSupplier;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton btn_add;
+    private javax.swing.JButton btn_edit;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -229,10 +381,10 @@ public class Form_Supplier extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextArea jTextArea2;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
+    private javax.swing.JTable table_supplier;
+    private javax.swing.JTextArea text_area_address;
+    private javax.swing.JTextField txt_name;
+    private javax.swing.JTextField txt_phone;
     // End of variables declaration//GEN-END:variables
 }

@@ -4,17 +4,40 @@
  */
 package Form;
 
+import DBContext.CategoryDB;
+import DBContext.ProductDB;
+import Model.Category;
+import Model.Product;
+import Shared.Utils;
+import java.awt.Component;
+import java.awt.Image;
+import java.util.ArrayList;
+import java.util.stream.Collectors;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JTable;
+import javax.swing.UIManager;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author MSI
  */
 public class Form_Product extends javax.swing.JFrame {
 
+    ArrayList<Product> products = new ArrayList<>();
+    ArrayList<Category> categories = new ArrayList<>();
+    private static final String search_placeholder = "Tìm kiếm sản phẩm";
+
     /**
      * Creates new form Form_Products
      */
     public Form_Product() {
         initComponents();
+
+        renderCategoryCombobox();
+        renderProductTable();
     }
 
     /**
@@ -31,12 +54,12 @@ public class Form_Product extends javax.swing.JFrame {
         jMenu2 = new javax.swing.JMenu();
         jLabel1 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
-        jTextField3 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
-        jComboBox4 = new javax.swing.JComboBox<>();
-        jButton7 = new javax.swing.JButton();
-        jButton8 = new javax.swing.JButton();
+        table_product = new javax.swing.JTable();
+        txt_searchbox = new javax.swing.JTextField();
+        btn_search = new javax.swing.JButton();
+        combobox_category = new javax.swing.JComboBox<>();
+        btn_edit = new javax.swing.JButton();
+        btn_add = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         MenuAccount = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -61,28 +84,42 @@ public class Form_Product extends javax.swing.JFrame {
 
         jScrollPane2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        table_product.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Hình ảnh", "Tên sản phẩm", "Số lượng", "Đơn giá", "Giá giảm", "Trạng thái"
             }
         ));
-        jScrollPane2.setViewportView(jTable2);
+        jScrollPane2.setViewportView(table_product);
 
-        jTextField3.setText("Tìm kiếm tên sản phẩm");
+        txt_searchbox.setText("Tìm kiếm sản phẩm");
+        txt_searchbox.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txt_searchboxFocusGained(evt);
+            }
+        });
 
-        jButton1.setText("Tìm");
+        btn_search.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/icons8-search-32.png"))); // NOI18N
+        btn_search.setText("Tìm");
+        btn_search.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_searchActionPerformed(evt);
+            }
+        });
 
-        jComboBox4.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        btn_edit.setText("Sửa");
 
-        jButton7.setText("Sửa");
-
-        jButton8.setText("Thêm");
+        btn_add.setText("Thêm");
+        btn_add.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_addActionPerformed(evt);
+            }
+        });
 
         MenuAccount.setText("Tài khoản");
 
@@ -123,15 +160,15 @@ public class Form_Product extends javax.swing.JFrame {
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txt_searchbox, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jComboBox4, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(combobox_category, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 296, Short.MAX_VALUE)
-                        .addComponent(jButton8)
+                        .addComponent(btn_search, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 255, Short.MAX_VALUE)
+                        .addComponent(btn_add)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton7)))
+                        .addComponent(btn_edit)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -141,27 +178,128 @@ public class Form_Product extends javax.swing.JFrame {
                 .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(17, 17, 17))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jComboBox4, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 584, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(btn_edit, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(17, 17, 17))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(txt_searchbox, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(combobox_category, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(btn_add, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 584, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btn_search, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * @param args the command line arguments
-     */
+    private void txt_searchboxFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txt_searchboxFocusGained
+        if (txt_searchbox.getText().equals(search_placeholder)) {
+            txt_searchbox.setText("");
+        }
+    }//GEN-LAST:event_txt_searchboxFocusGained
+
+    private void btn_searchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_searchActionPerformed
+        renderProductTable();
+
+        if (txt_searchbox.getText().length() == 0) {
+            txt_searchbox.setText(search_placeholder);
+        }
+    }//GEN-LAST:event_btn_searchActionPerformed
+
+    private void btn_addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_addActionPerformed
+        new Form_AddEditProduct(null).setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_btn_addActionPerformed
+
+    private void renderProductTable() {
+        DefaultTableModel tableModel = (DefaultTableModel) table_product.getModel();
+        products.clear();
+        tableModel.setRowCount(0);
+
+        
+        String searchValue = txt_searchbox.getText().toString().equals(search_placeholder) ? "" : txt_searchbox.getText(); 
+        String categoryName = (String) combobox_category.getSelectedItem();
+
+        Category currentCategory = getCategoryByName(categoryName);
+        String currentCategoryName = currentCategory == null ? "Tất cả" : currentCategory.getCategoryName();
+
+
+        try {
+
+            if (currentCategoryName == "Tất cả") {
+                if (searchValue == "" || searchValue.equals(search_placeholder)) {
+                    products = ProductDB.getProducts();
+                    
+                    System.out.println(products.size());
+                } else {
+
+                    products = (ArrayList<Product>) ProductDB.getProducts().stream().filter(item -> item.getName().toLowerCase().contains(searchValue.toLowerCase())).collect(Collectors.toList());
+                }
+
+            } else {
+                products = ProductDB.getProductsByCategoryIdAndName(currentCategory.getId(), searchValue);
+            }
+
+            for (Product product : products) {
+                tableModel.addRow(new Object[]{
+                    product.getImage(),
+                    product.getName(),
+                    product.getQuantity(),
+                    Utils.formatVNCurrency(product.getPrice()),
+                    Utils.formatVNCurrency(product.getDiscountPrice()),
+                    product.getStatus()
+                });
+            }
+
+            table_product.setRowHeight(50);
+            table_product.getTableHeader().setReorderingAllowed(false);
+
+            table_product.getColumnModel().getColumn(0).setCellRenderer(new ImageRender());
+
+        } catch (Exception e) {
+        }
+
+    }
+
+    private Category getCategoryByName(String categoryName) {
+        return categories.stream()
+                .filter(product -> product.getCategoryName().equals(categoryName))
+                .findFirst()
+                .orElse(null);
+    }
+
+    private void renderCategoryCombobox() {
+
+        try {
+            categories = CategoryDB.getCategories();
+
+            combobox_category.addItem("Tất cả");
+            for (Category category : categories) {
+                combobox_category.addItem(category.getCategoryName());
+            }
+        } catch (Exception e) {
+        }
+    }
+
+    private class ImageRender extends DefaultTableCellRenderer {
+
+        @Override
+        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+            String photoName = value.toString();
+            ImageIcon imageIcon = new ImageIcon(new ImageIcon("src/Images/" + photoName).getImage().getScaledInstance(40, 40, Image.SCALE_DEFAULT));
+
+            return new JLabel(imageIcon);
+        }
+
+    }
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -189,7 +327,13 @@ public class Form_Product extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
+
             public void run() {
+                try {
+                    UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+                } catch (Exception e) {
+
+                }
                 new Form_Product().setVisible(true);
             }
         });
@@ -203,10 +347,10 @@ public class Form_Product extends javax.swing.JFrame {
     private javax.swing.JMenu MenuProduct;
     private javax.swing.JMenu MenuStats;
     private javax.swing.JMenu MenuSupplier;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton7;
-    private javax.swing.JButton jButton8;
-    private javax.swing.JComboBox<String> jComboBox4;
+    private javax.swing.JButton btn_add;
+    private javax.swing.JButton btn_edit;
+    private javax.swing.JButton btn_search;
+    private javax.swing.JComboBox<String> combobox_category;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
@@ -214,7 +358,7 @@ public class Form_Product extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar2;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable2;
-    private javax.swing.JTextField jTextField3;
+    private javax.swing.JTable table_product;
+    private javax.swing.JTextField txt_searchbox;
     // End of variables declaration//GEN-END:variables
 }
