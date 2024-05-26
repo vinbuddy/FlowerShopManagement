@@ -22,6 +22,15 @@ public class Product {
     public String Image;
     public double DiscountPrice;
     public BigDecimal OriginalDecimalPrice;
+    public BigDecimal OriginalDecimalDiscountPrice;
+
+    public BigDecimal getOriginalDecimalDiscountPrice() {
+        return OriginalDecimalDiscountPrice;
+    }
+
+    public void setOriginalDecimalDiscountPrice(BigDecimal OriginalDecimalDiscountPrice) {
+        this.OriginalDecimalDiscountPrice = OriginalDecimalDiscountPrice;
+    }
 
     public BigDecimal getOriginalDecimalPrice() {
         return OriginalDecimalPrice;
@@ -102,9 +111,9 @@ public class Product {
     public void setImage(String Image) {
         this.Image = Image;
     }
-    
+
     public double calculateTotalPrice() {
         return Quantity * Price;
     }
-    
+
 }

@@ -4,17 +4,34 @@
  */
 package Form;
 
+import DBContext.ProductDB;
+import Model.Product;
+import java.math.BigDecimal;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author MSI
  */
 public class Form_Discount extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Form_Discount
-     */
-    public Form_Discount() {
+    Product product;
+
+    public Form_Discount(Product product) {
         initComponents();
+        this.product = product;
+        
+
+        if (product != null && product.getDiscountPrice() == 0.0) {
+            btn_add.setEnabled(true);
+            btn_delete.setEnabled(false);
+        } else {
+            btn_add.setEnabled(false);
+            btn_delete.setEnabled(true);
+
+        }
+
+        renderDiscountPrice();
     }
 
     /**
@@ -26,62 +43,76 @@ public class Form_Discount extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jButton5 = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
-        jTextField4 = new javax.swing.JTextField();
+        btn_add = new javax.swing.JButton();
+        btn_delete = new javax.swing.JButton();
+        txt_original_price = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
-        jTextField6 = new javax.swing.JTextField();
+        txt_discount_price = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
+        btn_back = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jButton5.setText("Tạo giảm giá");
-
-        jButton6.setText("Xóa");
-        jButton6.addActionListener(new java.awt.event.ActionListener() {
+        btn_add.setText("Tạo giảm giá");
+        btn_add.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton6ActionPerformed(evt);
+                btn_addActionPerformed(evt);
             }
         });
 
-        jTextField4.setText("0");
+        btn_delete.setText("Xóa");
+        btn_delete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_deleteActionPerformed(evt);
+            }
+        });
+
+        txt_original_price.setText("0");
 
         jLabel8.setText("Giá gốc");
 
         jLabel9.setText("Giá mới");
 
-        jTextField6.setText("0");
+        txt_discount_price.setText("0");
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel1.setText("GIẢM GIÁ");
+
+        btn_back.setText("Quay lại");
+        btn_back.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_backActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
                         .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField4))
+                        .addComponent(txt_original_price))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jLabel1)
+                        .addGap(183, 183, 183))
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
                         .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, 231, Short.MAX_VALUE))
-                            .addComponent(jTextField6))))
+                                .addComponent(btn_back, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btn_delete, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btn_add, javax.swing.GroupLayout.DEFAULT_SIZE, 209, Short.MAX_VALUE))
+                            .addComponent(txt_discount_price))))
                 .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jLabel1)
-                .addGap(200, 200, 200))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -91,24 +122,73 @@ public class Form_Discount extends javax.swing.JFrame {
                 .addGap(15, 15, 15)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txt_original_price, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(32, 32, 32)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9)
-                    .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txt_discount_price, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(27, 27, 27)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btn_delete, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_add, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_back, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+    private void btn_deleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_deleteActionPerformed
+       
+        try {
+            boolean result = ProductDB.deleteDiscount(product.getId());
+
+            if (result) {
+                JOptionPane.showMessageDialog(this, "Xóa giảm giá thành công", "Thành công", JOptionPane.INFORMATION_MESSAGE);
+                new Form_Product().setVisible(true);
+                this.setVisible(false);
+            }
+        } catch (Exception e) {
+        }
+    }//GEN-LAST:event_btn_deleteActionPerformed
+
+    private void btn_addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_addActionPerformed
+        try {
+            double price = Double.parseDouble(txt_discount_price.getText());
+            if (price <= 0) {
+                JOptionPane.showMessageDialog(this, "Giá sản phẩm phải lớn hơn 0", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Giá sản phẩm không hợp lệ", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        try {
+            boolean result = ProductDB.createDiscount(product.getId(), txt_discount_price.getText());
+
+            if (result) {
+                JOptionPane.showMessageDialog(this, "Tạo giảm giá thành công", "Thành công", JOptionPane.INFORMATION_MESSAGE);
+                new Form_Product().setVisible(true);
+                this.setVisible(false);
+            }
+        } catch (Exception e) {
+        }
+    }//GEN-LAST:event_btn_addActionPerformed
+
+    private void btn_backActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_backActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton6ActionPerformed
+        new Form_Product().setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_btn_backActionPerformed
+
+    private void renderDiscountPrice() {
+        txt_original_price.setText(String.valueOf(product.getOriginalDecimalPrice()));
+
+        String discountValue = product.getOriginalDecimalDiscountPrice() == null ? "" : String.valueOf(product.getOriginalDecimalDiscountPrice());
+
+        txt_discount_price.setText(String.valueOf(discountValue));
+    }
 
     /**
      * @param args the command line arguments
@@ -140,18 +220,19 @@ public class Form_Discount extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Form_Discount().setVisible(true);
+                new Form_Discount(null).setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
+    private javax.swing.JButton btn_add;
+    private javax.swing.JButton btn_back;
+    private javax.swing.JButton btn_delete;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField6;
+    private javax.swing.JTextField txt_discount_price;
+    private javax.swing.JTextField txt_original_price;
     // End of variables declaration//GEN-END:variables
 }

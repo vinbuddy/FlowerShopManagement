@@ -24,33 +24,34 @@
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" attributes="0">
+              <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace max="-2" attributes="0"/>
                       <Component id="jLabel8" min="-2" pref="49" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jTextField4" max="32767" attributes="0"/>
+                      <Component id="txt_original_price" max="32767" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="1" attributes="0">
+                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                      <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="183" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace max="-2" attributes="0"/>
                       <Component id="jLabel9" min="-2" pref="49" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" attributes="0">
-                              <Component id="jButton6" min="-2" pref="222" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jButton5" pref="231" max="32767" attributes="0"/>
+                              <Component id="btn_back" min="-2" pref="78" max="-2" attributes="0"/>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <Component id="btn_delete" min="-2" pref="148" max="-2" attributes="0"/>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <Component id="btn_add" pref="209" max="32767" attributes="0"/>
                           </Group>
-                          <Component id="jTextField6" max="32767" attributes="0"/>
+                          <Component id="txt_discount_price" max="32767" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
-          </Group>
-          <Group type="102" alignment="1" attributes="0">
-              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-              <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="200" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -62,17 +63,18 @@
               <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabel8" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jTextField4" alignment="3" min="-2" pref="33" max="-2" attributes="0"/>
+                  <Component id="txt_original_price" alignment="3" min="-2" pref="33" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabel9" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jTextField6" alignment="3" min="-2" pref="33" max="-2" attributes="0"/>
+                  <Component id="txt_discount_price" alignment="3" min="-2" pref="33" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="jButton6" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
-                  <Component id="jButton5" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
+                  <Component id="btn_delete" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
+                  <Component id="btn_add" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
+                  <Component id="btn_back" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="32767" attributes="0"/>
           </Group>
@@ -80,20 +82,23 @@
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Component class="javax.swing.JButton" name="jButton5">
+    <Component class="javax.swing.JButton" name="btn_add">
       <Properties>
         <Property name="text" type="java.lang.String" value="T&#x1ea1;o gi&#x1ea3;m gi&#xe1;"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_addActionPerformed"/>
+      </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="jButton6">
+    <Component class="javax.swing.JButton" name="btn_delete">
       <Properties>
         <Property name="text" type="java.lang.String" value="X&#xf3;a"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton6ActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_deleteActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JTextField" name="jTextField4">
+    <Component class="javax.swing.JTextField" name="txt_original_price">
       <Properties>
         <Property name="text" type="java.lang.String" value="0"/>
       </Properties>
@@ -108,7 +113,7 @@
         <Property name="text" type="java.lang.String" value="Gi&#xe1; m&#x1edb;i"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="jTextField6">
+    <Component class="javax.swing.JTextField" name="txt_discount_price">
       <Properties>
         <Property name="text" type="java.lang.String" value="0"/>
       </Properties>
@@ -120,6 +125,14 @@
         </Property>
         <Property name="text" type="java.lang.String" value="GI&#x1ea2;M GI&#xc1;"/>
       </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="btn_back">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Quay l&#x1ea1;i"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_backActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

@@ -60,7 +60,7 @@ public class Form_Product extends javax.swing.JFrame {
         combobox_category = new javax.swing.JComboBox<>();
         btn_edit = new javax.swing.JButton();
         btn_add = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        btn_discount = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         MenuAccount = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -127,7 +127,12 @@ public class Form_Product extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setText("Giảm giá");
+        btn_discount.setText("Giảm giá");
+        btn_discount.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_discountActionPerformed(evt);
+            }
+        });
 
         MenuAccount.setText("Tài khoản");
 
@@ -178,7 +183,7 @@ public class Form_Product extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btn_edit)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1)))
+                        .addComponent(btn_discount)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -198,7 +203,7 @@ public class Form_Product extends javax.swing.JFrame {
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addGap(0, 0, Short.MAX_VALUE)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(btn_discount, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(btn_edit, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(btn_add, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(17, 17, 17)))
@@ -243,6 +248,16 @@ public class Form_Product extends javax.swing.JFrame {
 
     }//GEN-LAST:event_btn_editActionPerformed
 
+    private void btn_discountActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_discountActionPerformed
+        int currentIndex = table_product.getSelectedRow();
+
+        if (currentIndex != -1) {
+            Product currentProduct = products.get(currentIndex);
+            new Form_Discount(currentProduct).setVisible(true);
+            this.setVisible(false);
+        }
+    }//GEN-LAST:event_btn_discountActionPerformed
+
     private void renderProductTable() {
         DefaultTableModel tableModel = (DefaultTableModel) table_product.getModel();
         products.clear();
@@ -260,7 +275,6 @@ public class Form_Product extends javax.swing.JFrame {
                 if (searchValue == "" || searchValue.equals(search_placeholder)) {
                     products = ProductDB.getProducts();
 
-                    System.out.println(products.size());
                 } else {
 
                     products = (ArrayList<Product>) ProductDB.getProducts().stream().filter(item -> item.getName().toLowerCase().contains(searchValue.toLowerCase())).collect(Collectors.toList());
@@ -371,10 +385,10 @@ public class Form_Product extends javax.swing.JFrame {
     private javax.swing.JMenu MenuStats;
     private javax.swing.JMenu MenuSupplier;
     private javax.swing.JButton btn_add;
+    private javax.swing.JButton btn_discount;
     private javax.swing.JButton btn_edit;
     private javax.swing.JButton btn_search;
     private javax.swing.JComboBox<String> combobox_category;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;

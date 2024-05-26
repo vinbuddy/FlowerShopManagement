@@ -38,8 +38,10 @@ public class ProductDB {
                 product.setPrice(rs.getBigDecimal("Price").doubleValue());
                 if (rs.getObject("DiscountPrice") != null) {
                     product.setDiscountPrice(rs.getBigDecimal("DiscountPrice").doubleValue());
+                    product.setOriginalDecimalDiscountPrice(rs.getBigDecimal("DiscountPrice"));
                 } else {
-                    product.setDiscountPrice(0.0);
+                    product.setDiscountPrice(0);
+                    product.setOriginalDecimalDiscountPrice(null);
                 }
                 product.setQuantity(rs.getInt("Quantity"));
                 product.setStatus(rs.getString("Status"));
@@ -94,15 +96,17 @@ public class ProductDB {
                 product.setPrice(rs.getBigDecimal("Price").doubleValue());
                 if (rs.getObject("DiscountPrice") != null) {
                     product.setDiscountPrice(rs.getBigDecimal("DiscountPrice").doubleValue());
+                    product.setOriginalDecimalDiscountPrice(rs.getBigDecimal("DiscountPrice"));
                 } else {
                     product.setDiscountPrice(0.0);
+                    product.setOriginalDecimalDiscountPrice(null);
                 }
                 product.setQuantity(rs.getInt("Quantity"));
                 product.setStatus(rs.getString("Status"));
                 product.setDescription(rs.getString("Description"));
                 product.setImage(rs.getString("Image"));
                 product.setOriginalDecimalPrice(rs.getBigDecimal("Price"));
-                
+
                 data.add(product);
             }
 
@@ -210,6 +214,41 @@ public class ProductDB {
             e.printStackTrace(); // Log or handle the exception appropriately
         }
 
+        return false;
+    }
+
+    public static boolean createDiscount(int productId, String discount) {
+        BigDecimal discountPrice = new BigDecimal(discount);
+        try {
+            Connection conn = DBConnection.getConnection();
+            String sql = "INSERT INTO DiscountProducts(ProductId, DiscountPrice) VALUES(?, ?)";
+
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setInt(1, productId);
+            stmt.setBigDecimal(2, discountPrice);
+            int rowsAffected = stmt.executeUpdate();
+
+            return rowsAffected > 0;
+
+        } catch (Exception e) {
+        }
+
+        return false;
+    }
+
+    public static boolean deleteDiscount(int productId) {
+        try {
+            Connection conn = DBConnection.getConnection();
+            String sql = "DELETE FROM DiscountProducts WHERE ProductId = ?";
+
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setInt(1, productId);
+            int rowsAffected = stmt.executeUpdate();
+
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            e.printStackTrace(); // Xử lý ngoại lệ nếu cần
+        }
         return false;
     }
 
