@@ -4,15 +4,10 @@
  */
 package DBContext;
 
-import Model.Order;
-import Model.OrderDetail;
 import Model.User;
-import java.math.BigDecimal;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 /**
@@ -20,6 +15,7 @@ import java.util.ArrayList;
  * @author MSI
  */
 public class UserDB {
+
     public static boolean isAdminRole(int userId) {
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -28,12 +24,12 @@ public class UserDB {
 
         try {
             conn = DBConnection.getConnection();
-            String sql = "SELECT r.RoleName " +
-                         "FROM Users u " +
-                         "JOIN UserRoles ur ON u.Id = ur.UserId " +
-                         "JOIN Roles r ON ur.RoleId = r.Id " +
-                         "WHERE u.Id = ? AND r.RoleName = 'Admin'";
-            
+            String sql = "SELECT r.RoleName "
+                    + "FROM Users u "
+                    + "JOIN UserRoles ur ON u.Id = ur.UserId "
+                    + "JOIN Roles r ON ur.RoleId = r.Id "
+                    + "WHERE u.Id = ? AND r.RoleName = 'Admin'";
+
             stmt = conn.prepareStatement(sql);
             stmt.setInt(1, userId);
             rs = stmt.executeQuery();
@@ -48,13 +44,13 @@ public class UserDB {
 
         return isAdmin;
     }
-    
+
     public static User login(String email, String password) {
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
         User user = new User();
-        
+
         try {
             conn = DBConnection.getConnection();
             String sql = "SELECT * FROM Users WHERE email = ? AND password = ?";
@@ -70,14 +66,50 @@ public class UserDB {
                 user.setPassword(rs.getString("Password"));
                 user.setAvatar(rs.getString("Avatar"));
             }
-            
+
             return user;
         } catch (Exception e) {
             e.printStackTrace();
         }
-        
-        
+
         return null;
+    }
+
+    public static ArrayList<User> getCustomers() {
+        ArrayList<User> data = new ArrayList<>();
+
+        Connection connection = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        try {
+            connection = DBConnection.getConnection();
+            String sql = "SELECT * FROM Users";
+            stmt = connection.prepareStatement(sql);
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                boolean isAdmin = isAdminRole(rs.getInt("Id"));
+                if (!isAdmin) {
+
+                    User item = new User();
+
+                    item.setId(rs.getInt("Id"));
+                    item.setUserName(rs.getString("UserName"));
+                    item.setEmail(rs.getString("Email"));
+                    item.setAvatar(rs.getString("Avatar"));
+
+                    data.add(item);
+                }
+
+            }
+
+        } catch (java.sql.SQLException e) {
+            e.printStackTrace();
+        } finally {
+        }
+
+        return data;
     }
 
 }

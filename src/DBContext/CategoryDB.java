@@ -46,6 +46,39 @@ public class CategoryDB {
         return data;
     }
     
+    public static ArrayList<Category> getCategoriesByProductId(int productId) {
+        ArrayList<Category> data = new ArrayList<>();
+
+        Connection connection = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        try {
+            connection = DBConnection.getConnection();
+            String sql = "  SELECT pc.CategoryId AS Id, c.CategoryName FROM ProductCategories pc JOIN Categories c ON pc.CategoryId = c.Id WHERE pc.ProductId = ?";
+
+            
+            stmt = connection.prepareStatement(sql);
+            stmt.setInt(1, productId);
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                Category item = new Category();
+
+                item.setId(rs.getInt("Id"));
+                item.setCategoryName(rs.getString("CategoryName"));
+                
+                data.add(item);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+        }
+
+        return data;
+    }
+    
     public static boolean createCategory(String categoryName) {
         try {
             Connection conn = DBConnection.getConnection();

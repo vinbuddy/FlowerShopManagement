@@ -4,17 +4,32 @@
  */
 package Form;
 
+import DBContext.UserDB;
+import Model.User;
+import java.awt.Component;
+import java.awt.Image;
+import java.util.ArrayList;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author MSI
  */
 public class Form_Customer extends javax.swing.JFrame {
 
+    ArrayList<User> customers = new ArrayList<>();
+    
     /**
      * Creates new form Form_Customer
      */
     public Form_Customer() {
         initComponents();
+        
+        renderTable();
     }
 
     /**
@@ -27,6 +42,8 @@ public class Form_Customer extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        table_customer = new javax.swing.JTable();
         jMenuBar1 = new javax.swing.JMenuBar();
         MenuAccount = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -42,6 +59,21 @@ public class Form_Customer extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 173, 173));
         jLabel1.setText("Khách hàng");
+
+        jScrollPane1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        table_customer.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Ảnh đại diện", "Mã khách hàng", "Tên khách hàng", "Email"
+            }
+        ));
+        jScrollPane1.setViewportView(table_customer);
 
         MenuAccount.setText("Tài khoản");
 
@@ -76,20 +108,70 @@ public class Form_Customer extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(625, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 779, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 31, Short.MAX_VALUE)
-                .addGap(478, 478, 478))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 466, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    
+    
+   
+    
+    private void renderTable() {
+        DefaultTableModel tableModel = (DefaultTableModel) table_customer.getModel();
+        customers.clear();
+        tableModel.setRowCount(0);
+        
+        try {
+            customers = UserDB.getCustomers();
+            
+            for (User customer : customers) {
+                tableModel.addRow(new Object[]{
+                    customer.getAvatar() == null ? "DefaultUserAvatar.jpg" : customer.getAvatar(),
+                    customer.getId(),
+                    customer.getUserName(),
+                    customer.getEmail()
+                });
+            }
+
+            table_customer.setRowHeight(50);
+            table_customer.getTableHeader().setReorderingAllowed(false);
+
+            table_customer.getColumnModel().getColumn(0).setCellRenderer(new ImageRender());
+        } catch (Exception e) {
+        }
+    }
+    
+    private class ImageRender extends DefaultTableCellRenderer {
+
+        @Override
+        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+            String photoName = value.toString();
+            ImageIcon imageIcon = new ImageIcon(new ImageIcon("src/Images/" + photoName).getImage().getScaledInstance(40, 40, Image.SCALE_DEFAULT));
+
+            return new JLabel(imageIcon);
+        }
+
+    }
+    
+    
+    
+    
     /**
      * @param args the command line arguments
      */
@@ -136,5 +218,7 @@ public class Form_Customer extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable table_customer;
     // End of variables declaration//GEN-END:variables
 }

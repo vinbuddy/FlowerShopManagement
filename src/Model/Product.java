@@ -4,6 +4,8 @@
  */
 package Model;
 
+import java.math.BigDecimal;
+
 /**
  *
  * @author MSI
@@ -19,6 +21,15 @@ public class Product {
     public String Description;
     public String Image;
     public double DiscountPrice;
+    public BigDecimal OriginalDecimalPrice;
+
+    public BigDecimal getOriginalDecimalPrice() {
+        return OriginalDecimalPrice;
+    }
+
+    public void setOriginalDecimalPrice(BigDecimal OriginalDecimalPrice) {
+        this.OriginalDecimalPrice = OriginalDecimalPrice;
+    }
 
     public double getDiscountPrice() {
         return DiscountPrice;

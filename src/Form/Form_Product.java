@@ -60,6 +60,7 @@ public class Form_Product extends javax.swing.JFrame {
         combobox_category = new javax.swing.JComboBox<>();
         btn_edit = new javax.swing.JButton();
         btn_add = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         MenuAccount = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -113,6 +114,11 @@ public class Form_Product extends javax.swing.JFrame {
         });
 
         btn_edit.setText("Sửa");
+        btn_edit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_editActionPerformed(evt);
+            }
+        });
 
         btn_add.setText("Thêm");
         btn_add.addActionListener(new java.awt.event.ActionListener() {
@@ -120,6 +126,8 @@ public class Form_Product extends javax.swing.JFrame {
                 btn_addActionPerformed(evt);
             }
         });
+
+        jButton1.setText("Giảm giá");
 
         MenuAccount.setText("Tài khoản");
 
@@ -165,10 +173,12 @@ public class Form_Product extends javax.swing.JFrame {
                         .addComponent(combobox_category, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btn_search, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 255, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 177, Short.MAX_VALUE)
                         .addComponent(btn_add)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btn_edit)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btn_edit)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton1)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -180,15 +190,18 @@ public class Form_Product extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(btn_edit, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(17, 17, 17))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(txt_searchbox, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(combobox_category, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(combobox_category, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(btn_edit, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(btn_add, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                .addGap(17, 17, 17)))
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 584, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btn_search, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -218,25 +231,35 @@ public class Form_Product extends javax.swing.JFrame {
         this.setVisible(false);
     }//GEN-LAST:event_btn_addActionPerformed
 
+    private void btn_editActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_editActionPerformed
+        int currentIndex = table_product.getSelectedRow();
+
+        if (currentIndex != -1) {
+            Product currentProduct = products.get(currentIndex);
+            new Form_AddEditProduct(currentProduct).setVisible(true);
+            this.setVisible(false);
+        }
+
+
+    }//GEN-LAST:event_btn_editActionPerformed
+
     private void renderProductTable() {
         DefaultTableModel tableModel = (DefaultTableModel) table_product.getModel();
         products.clear();
         tableModel.setRowCount(0);
 
-        
-        String searchValue = txt_searchbox.getText().toString().equals(search_placeholder) ? "" : txt_searchbox.getText(); 
+        String searchValue = txt_searchbox.getText().toString().equals(search_placeholder) ? "" : txt_searchbox.getText();
         String categoryName = (String) combobox_category.getSelectedItem();
 
         Category currentCategory = getCategoryByName(categoryName);
         String currentCategoryName = currentCategory == null ? "Tất cả" : currentCategory.getCategoryName();
-
 
         try {
 
             if (currentCategoryName == "Tất cả") {
                 if (searchValue == "" || searchValue.equals(search_placeholder)) {
                     products = ProductDB.getProducts();
-                    
+
                     System.out.println(products.size());
                 } else {
 
@@ -351,6 +374,7 @@ public class Form_Product extends javax.swing.JFrame {
     private javax.swing.JButton btn_edit;
     private javax.swing.JButton btn_search;
     private javax.swing.JComboBox<String> combobox_category;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
