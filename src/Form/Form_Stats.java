@@ -220,6 +220,11 @@ public class Form_Stats extends javax.swing.JFrame {
 
         btn_export_excel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/icons8-excel-32.png"))); // NOI18N
         btn_export_excel.setText("Xuất Excel");
+        btn_export_excel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_export_excelActionPerformed(evt);
+            }
+        });
 
         btn_export_pdf.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/icons8-pdf-32.png"))); // NOI18N
         btn_export_pdf.setText("Xuất PDF");
@@ -427,6 +432,10 @@ public class Form_Stats extends javax.swing.JFrame {
        renderRevenue();
     }//GEN-LAST:event_btn_filterActionPerformed
 
+    private void btn_export_excelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_export_excelActionPerformed
+        
+    }//GEN-LAST:event_btn_export_excelActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -487,8 +496,6 @@ public class Form_Stats extends javax.swing.JFrame {
             String fromDate = dateFormat.format(date_from.getDate());
             String toDate = dateFormat.format(date_to.getDate());
             
-            System.out.println(fromDate);
-            System.out.println(toDate);
 
             productRevenues = RevenueDB.getProductRevenue(fromDate, toDate);
             

@@ -8,18 +8,23 @@ import DBContext.CategoryDB;
 import DBContext.OrderDB;
 import DBContext.ProductDB;
 import Model.Category;
+import Model.Order;
 import Model.Product;
+import Shared.InvoiceGenerator;
 import java.awt.Component;
 import java.awt.Image;
+import java.io.File;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
 import java.util.Locale;
 import java.util.stream.Collectors;
 import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.swing.UIManager;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
@@ -100,11 +105,9 @@ public class Form_Dashboard extends javax.swing.JFrame {
         jLabel3.setText("Tổng tiền:");
 
         label_total_payement.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        label_total_payement.setText("90.000 đ");
+        label_total_payement.setText("0 đ");
 
-        btn_checkout.setBackground(new java.awt.Color(255, 173, 203));
         btn_checkout.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        btn_checkout.setForeground(new java.awt.Color(255, 255, 255));
         btn_checkout.setText("Thanh toán");
         btn_checkout.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -456,9 +459,16 @@ public class Form_Dashboard extends javax.swing.JFrame {
     
     private void handleCheckout() {
         try {
-            boolean result = OrderDB.createOrder(selectedProducts);
+            int orderId = OrderDB.createOrder(selectedProducts);
             
-            if (result) {
+            Order insertedOrder = OrderDB.getOrders().stream().filter(o -> o.getId() == orderId)
+                .findFirst()
+                .orElse(null);
+            
+            if (orderId > 0) {
+                
+                printInvoice(insertedOrder);
+                
                 JOptionPane.showMessageDialog(this, "Thêm thành công");
                 
                 selectedProducts.clear();
@@ -467,6 +477,26 @@ public class Form_Dashboard extends javax.swing.JFrame {
             }
         } catch (Exception e) {
              JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+    private void printInvoice(Order order) {
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("Chọn nơi lưu và tên tệp PDF");
+        
+        // Hiển thị hộp thoại lưu tệp
+        int userSelection = fileChooser.showSaveDialog(null);
+        
+        if (userSelection == JFileChooser.APPROVE_OPTION) {
+            File fileToSave = fileChooser.getSelectedFile();
+            String filePath = fileToSave.getAbsolutePath();
+            
+            // Đảm bảo tệp có đuôi .pdf
+            if (!filePath.endsWith(".pdf")) {
+                filePath += ".pdf";
+            }
+            
+            InvoiceGenerator.createOrderInvoice(filePath, order, selectedProducts);
         }
     }
 
@@ -500,6 +530,12 @@ public class Form_Dashboard extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
+                 try {
+                    UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+
+                } catch (Exception e) {
+
+                }
                 new Form_Dashboard().setVisible(true);
             }
         });

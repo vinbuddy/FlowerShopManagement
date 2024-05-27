@@ -19,7 +19,8 @@ import java.util.ArrayList;
 
 public class OrderDB {
 
-    public static boolean createOrder(ArrayList<Product> selectedProducts) {
+    
+    public static int createOrder(ArrayList<Product> selectedProducts) {
         BigDecimal totalPayment = BigDecimal.ZERO;
         java.util.Date currentDate = new java.util.Date();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -67,12 +68,12 @@ public class OrderDB {
             }
 
             conn.commit(); // Commit transaction
-            return true;
+            return orderId;
 
         } catch (Exception e) {
         }
 
-        return false;
+        return 0;
     }
 
     public static ArrayList<Order> getOrders() {

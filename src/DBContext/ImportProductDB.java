@@ -89,7 +89,7 @@ public class ImportProductDB {
     }
 
 
-    public static boolean ImportProduct(int supplierId, ArrayList<Product> products) {
+    public static int ImportProduct(int supplierId, ArrayList<Product> products) {
         BigDecimal totalPayment = BigDecimal.ZERO;
         
         for (Product product : products) {
@@ -136,12 +136,12 @@ public class ImportProductDB {
             }
 
             conn.commit(); // Commit transaction
-            return true;
+            return insertedId;
 
         } catch (Exception e) {
         }
 
-        return false;
+        return 0;
     }
     
     

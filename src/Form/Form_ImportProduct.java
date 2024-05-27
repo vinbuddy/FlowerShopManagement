@@ -10,16 +10,21 @@ import DBContext.OrderDB;
 import DBContext.ProductDB;
 import DBContext.SupplierDB;
 import Model.Category;
+import Model.ImportProduct;
+import Model.Order;
 import Model.Product;
 import Model.Supplier;
+import Shared.InvoiceGenerator;
 import java.awt.Component;
 import java.awt.Image;
+import java.io.File;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
 import java.util.Locale;
 import java.util.stream.Collectors;
 import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
@@ -162,9 +167,7 @@ public class Form_ImportProduct extends javax.swing.JFrame {
         label_total_payement.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         label_total_payement.setText("90.000 đ");
 
-        btn_checkout.setBackground(new java.awt.Color(255, 173, 203));
         btn_checkout.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        btn_checkout.setForeground(new java.awt.Color(255, 255, 255));
         btn_checkout.setText("Nhập hàng");
         btn_checkout.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -484,18 +487,22 @@ public class Form_ImportProduct extends javax.swing.JFrame {
         try {
             String supplierName = combobox_supplier.getSelectedItem().toString();
             int supplierId = getSupplierByName(supplierName).getId();
-            boolean result = ImportProductDB.ImportProduct(supplierId, selectedProducts);
-            if (result) {
-                
+            int insertedId = ImportProductDB.ImportProduct(supplierId, selectedProducts);
+
+            if (insertedId > 0) {
+
                 int isPrinted = JOptionPane.showConfirmDialog(this,
                         "Tạo thành công, bạn có muốn in hóa đơn không",
                         "Xác nhận",
                         JOptionPane.YES_NO_OPTION,
                         JOptionPane.QUESTION_MESSAGE);
                 //JOptionPane.showMessageDialog(this, "Tạo đơn nhập hàng thành công");
-                
-                if(isPrinted == JOptionPane.YES_OPTION){
-                    //table_selected_product.print()
+
+                if (isPrinted == JOptionPane.YES_OPTION) {
+                    ImportProduct importProduct = ImportProductDB.getImportProducts().stream().filter(im -> im.getId() == insertedId)
+                            .findFirst()
+                            .orElse(null);
+                    printInvoice(importProduct);
                 }
 
                 selectedProducts.clear();
@@ -507,6 +514,26 @@ public class Form_ImportProduct extends javax.swing.JFrame {
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void printInvoice(ImportProduct importProduct) {
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("Chọn nơi lưu và tên tệp PDF");
+
+        // Hiển thị hộp thoại lưu tệp
+        int userSelection = fileChooser.showSaveDialog(null);
+
+        if (userSelection == JFileChooser.APPROVE_OPTION) {
+            File fileToSave = fileChooser.getSelectedFile();
+            String filePath = fileToSave.getAbsolutePath();
+
+            // Đảm bảo tệp có đuôi .pdf
+            if (!filePath.endsWith(".pdf")) {
+                filePath += ".pdf";
+            }
+
+            InvoiceGenerator.createImportProductInvoice(filePath, importProduct, selectedProducts);
         }
     }
 
@@ -540,7 +567,7 @@ public class Form_ImportProduct extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                 try {
+                try {
                     UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 
                 } catch (Exception e) {
