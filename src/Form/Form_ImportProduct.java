@@ -486,7 +486,17 @@ public class Form_ImportProduct extends javax.swing.JFrame {
             int supplierId = getSupplierByName(supplierName).getId();
             boolean result = ImportProductDB.ImportProduct(supplierId, selectedProducts);
             if (result) {
-                JOptionPane.showMessageDialog(this, "Tạo đơn nhập hàng thành công");
+                
+                int isPrinted = JOptionPane.showConfirmDialog(this,
+                        "Tạo thành công, bạn có muốn in hóa đơn không",
+                        "Xác nhận",
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.QUESTION_MESSAGE);
+                //JOptionPane.showMessageDialog(this, "Tạo đơn nhập hàng thành công");
+                
+                if(isPrinted == JOptionPane.YES_OPTION){
+                    //table_selected_product.print()
+                }
 
                 selectedProducts.clear();
                 renderSelectedProductTable();
