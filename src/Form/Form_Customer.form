@@ -26,14 +26,14 @@
             <Property name="text" type="java.lang.String" value="Nh&#xe0; cung c&#x1ea5;p"/>
           </Properties>
         </Menu>
+        <Menu class="javax.swing.JMenu" name="MenuImportProduct">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Nh&#x1ead;p h&#xe0;ng"/>
+          </Properties>
+        </Menu>
         <Menu class="javax.swing.JMenu" name="MenuOrder">
           <Properties>
             <Property name="text" type="java.lang.String" value="&#x110;&#x1a1;n h&#xe0;ng"/>
-          </Properties>
-        </Menu>
-        <Menu class="javax.swing.JMenu" name="MenuDiscount">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Gi&#x1ea3;m gi&#xe1;"/>
           </Properties>
         </Menu>
         <Menu class="javax.swing.JMenu" name="MenuCustomer">

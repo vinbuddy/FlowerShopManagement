@@ -41,8 +41,8 @@ public class Form_Order extends javax.swing.JFrame {
         jMenuItem1 = new javax.swing.JMenuItem();
         MenuProduct = new javax.swing.JMenu();
         MenuSupplier = new javax.swing.JMenu();
-        MenuOrder = new javax.swing.JMenu();
         MenuDiscount = new javax.swing.JMenu();
+        MenuOrder = new javax.swing.JMenu();
         MenuCustomer = new javax.swing.JMenu();
         MenuStats = new javax.swing.JMenu();
 
@@ -86,11 +86,11 @@ public class Form_Order extends javax.swing.JFrame {
         MenuSupplier.setText("Nhà cung cấp");
         jMenuBar1.add(MenuSupplier);
 
+        MenuDiscount.setText("Nhập hàng");
+        jMenuBar1.add(MenuDiscount);
+
         MenuOrder.setText("Đơn hàng");
         jMenuBar1.add(MenuOrder);
-
-        MenuDiscount.setText("Giảm giá");
-        jMenuBar1.add(MenuDiscount);
 
         MenuCustomer.setText("Khách hàng");
         jMenuBar1.add(MenuCustomer);
