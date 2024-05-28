@@ -98,7 +98,7 @@ public class Form_AddEditProduct extends javax.swing.JFrame {
         btn_back = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         MenuAccount = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
+        menu_item_logout = new javax.swing.JMenuItem();
         MenuProduct = new javax.swing.JMenu();
         MenuSupplier = new javax.swing.JMenu();
         MenuImportProduct = new javax.swing.JMenu();
@@ -262,28 +262,63 @@ public class Form_AddEditProduct extends javax.swing.JFrame {
         });
 
         MenuAccount.setText("Tài khoản");
+        MenuAccount.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                MenuAccountMouseClicked(evt);
+            }
+        });
 
-        jMenuItem1.setText("Đăng xuất");
-        MenuAccount.add(jMenuItem1);
+        menu_item_logout.setText("Đăng xuất");
+        MenuAccount.add(menu_item_logout);
 
         jMenuBar1.add(MenuAccount);
 
         MenuProduct.setText("Sản phẩm");
+        MenuProduct.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MenuProductActionPerformed(evt);
+            }
+        });
         jMenuBar1.add(MenuProduct);
 
         MenuSupplier.setText("Nhà cung cấp");
+        MenuSupplier.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MenuSupplierActionPerformed(evt);
+            }
+        });
         jMenuBar1.add(MenuSupplier);
 
         MenuImportProduct.setText("Nhập hàng");
+        MenuImportProduct.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MenuImportProductActionPerformed(evt);
+            }
+        });
         jMenuBar1.add(MenuImportProduct);
 
         MenuOrder.setText("Đơn hàng");
+        MenuOrder.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MenuOrderActionPerformed(evt);
+            }
+        });
         jMenuBar1.add(MenuOrder);
 
         MenuCustomer.setText("Khách hàng");
+        MenuCustomer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MenuCustomerActionPerformed(evt);
+            }
+        });
         jMenuBar1.add(MenuCustomer);
 
         MenuStats.setText("Thống kê");
+        MenuStats.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MenuStatsActionPerformed(evt);
+            }
+        });
         jMenuBar1.add(MenuStats);
 
         setJMenuBar(jMenuBar1);
@@ -407,6 +442,43 @@ public class Form_AddEditProduct extends javax.swing.JFrame {
         new Form_Product().setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_btn_backActionPerformed
+
+    private void MenuAccountMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MenuAccountMouseClicked
+        // TODO add your handling code here:
+        this.setVisible(false);
+        new Form_Login().setVisible(true);
+    }//GEN-LAST:event_MenuAccountMouseClicked
+
+    private void MenuProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuProductActionPerformed
+       this.setVisible(false);
+       new Form_Product().setVisible(true);
+    }//GEN-LAST:event_MenuProductActionPerformed
+
+    private void MenuSupplierActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuSupplierActionPerformed
+        this.setVisible(false);
+       new Form_Supplier().setVisible(true);
+    }//GEN-LAST:event_MenuSupplierActionPerformed
+
+    private void MenuImportProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuImportProductActionPerformed
+        this.setVisible(false);
+       new Form_ImportProduct().setVisible(true);
+    }//GEN-LAST:event_MenuImportProductActionPerformed
+
+    private void MenuOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuOrderActionPerformed
+        this.setVisible(false);
+       new Form_Order().setVisible(true);
+    }//GEN-LAST:event_MenuOrderActionPerformed
+
+    private void MenuCustomerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuCustomerActionPerformed
+        this.setVisible(false);
+       new Form_Customer().setVisible(true);
+        
+    }//GEN-LAST:event_MenuCustomerActionPerformed
+
+    private void MenuStatsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuStatsActionPerformed
+       this.setVisible(false);
+       new Form_Stats().setVisible(true);
+    }//GEN-LAST:event_MenuStatsActionPerformed
 
     private BufferedImage resize(String imgPath, int width, int height) {
         try {
@@ -755,13 +827,13 @@ public class Form_AddEditProduct extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JLabel label_image;
     private javax.swing.JList<String> list_category;
+    private javax.swing.JMenuItem menu_item_logout;
     private javax.swing.JSpinner spinner_quantity;
     private javax.swing.JTextArea text_area_description;
     private javax.swing.JTextField txt_name;

@@ -14,7 +14,7 @@ import Model.ImportProduct;
 import Model.Order;
 import Model.Product;
 import Model.Supplier;
-import Shared.InvoiceGenerator;
+import Shared.PDFGenerator;
 import java.awt.Component;
 import java.awt.Image;
 import java.io.File;
@@ -533,7 +533,7 @@ public class Form_ImportProduct extends javax.swing.JFrame {
                 filePath += ".pdf";
             }
 
-            InvoiceGenerator.createImportProductInvoice(filePath, importProduct, selectedProducts);
+            PDFGenerator.createImportProductInvoice(filePath, importProduct, selectedProducts);
         }
     }
 

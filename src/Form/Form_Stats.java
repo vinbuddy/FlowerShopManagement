@@ -10,20 +10,32 @@ import DBContext.RevenueDB;
 import Model.Order;
 import Model.Product;
 import Model.ProductRevenue;
+import Shared.PDFGenerator;
 import Shared.Utils;
 import java.awt.Component;
 import java.awt.Image;
-import java.text.ParseException;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.UIManager;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 /**
  *
@@ -34,7 +46,7 @@ public class Form_Stats extends javax.swing.JFrame {
     ArrayList<Order> orders = new ArrayList<>();
     ArrayList<Product> products = new ArrayList<>();
     ArrayList<ProductRevenue> productRevenues = new ArrayList<>();
-        ArrayList<Order> orderRevenues = new ArrayList<>();
+    ArrayList<Order> orderRevenues = new ArrayList<>();
 
     int selectedTabIndex = 0;
 
@@ -228,6 +240,11 @@ public class Form_Stats extends javax.swing.JFrame {
 
         btn_export_pdf.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/icons8-pdf-32.png"))); // NOI18N
         btn_export_pdf.setText("Xuất PDF");
+        btn_export_pdf.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_export_pdfActionPerformed(evt);
+            }
+        });
 
         jLabel1.setText("Từ");
 
@@ -359,31 +376,66 @@ public class Form_Stats extends javax.swing.JFrame {
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 260, Short.MAX_VALUE))
         );
 
-        tab_revenue.addTab("Doanh thu", jPanel7);
+        tab_revenue.addTab("Đơn hàng", jPanel7);
 
         MenuAccount.setText("Tài khoản");
 
         jMenuItem1.setText("Đăng xuất");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
         MenuAccount.add(jMenuItem1);
 
         jMenuBar1.add(MenuAccount);
 
         MenuProduct.setText("Sản phẩm");
+        MenuProduct.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MenuProductActionPerformed(evt);
+            }
+        });
         jMenuBar1.add(MenuProduct);
 
         MenuSupplier.setText("Nhà cung cấp");
+        MenuSupplier.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MenuSupplierActionPerformed(evt);
+            }
+        });
         jMenuBar1.add(MenuSupplier);
 
         MenuImportProduct.setText("Nhập hàng");
+        MenuImportProduct.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MenuImportProductActionPerformed(evt);
+            }
+        });
         jMenuBar1.add(MenuImportProduct);
 
         MenuOrder.setText("Đơn hàng");
+        MenuOrder.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MenuOrderActionPerformed(evt);
+            }
+        });
         jMenuBar1.add(MenuOrder);
 
         MenuCustomer.setText("Khách hàng");
+        MenuCustomer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MenuCustomerActionPerformed(evt);
+            }
+        });
         jMenuBar1.add(MenuCustomer);
 
         MenuStats.setText("Thống kê");
+        MenuStats.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MenuStatsActionPerformed(evt);
+            }
+        });
         jMenuBar1.add(MenuStats);
 
         setJMenuBar(jMenuBar1);
@@ -424,17 +476,78 @@ public class Form_Stats extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void tab_revenueStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_tab_revenueStateChanged
-         selectedTabIndex = tab_revenue.getSelectedIndex();
-         renderRevenue();
+        selectedTabIndex = tab_revenue.getSelectedIndex();
+        renderRevenue();
     }//GEN-LAST:event_tab_revenueStateChanged
 
     private void btn_filterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_filterActionPerformed
-       renderRevenue();
+        renderRevenue();
     }//GEN-LAST:event_btn_filterActionPerformed
 
     private void btn_export_excelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_export_excelActionPerformed
-        
+        switch (selectedTabIndex) {
+            case 0:
+                exportProductRevenueToExcel();
+                break;
+            case 1:
+                exportOrderRevenueToExcel();
+                break;
+        }
     }//GEN-LAST:event_btn_export_excelActionPerformed
+
+    private void btn_export_pdfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_export_pdfActionPerformed
+        switch (selectedTabIndex) {
+            case 0:
+                printProductRevenuePDF();
+                break;
+            case 1:
+                printOrderRevenuePDF();
+                break;
+        }
+    }//GEN-LAST:event_btn_export_pdfActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        // TODO add your handling code here:
+        this.setVisible(false);
+        new Form_Login().setVisible(true);
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void MenuProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuProductActionPerformed
+        // TODO add your handling code here:
+        
+        this.setVisible(false);
+        new Form_Product().setVisible(true);
+    }//GEN-LAST:event_MenuProductActionPerformed
+
+    private void MenuSupplierActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuSupplierActionPerformed
+        // TODO add your handling code here:
+        this.setVisible(false);
+        new Form_Supplier().setVisible(true);
+    }//GEN-LAST:event_MenuSupplierActionPerformed
+
+    private void MenuImportProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuImportProductActionPerformed
+        // TODO add your handling code here:
+        this.setVisible(false);
+        new Form_ImportProduct().setVisible(true);
+    }//GEN-LAST:event_MenuImportProductActionPerformed
+
+    private void MenuOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuOrderActionPerformed
+        // TODO add your handling code here:
+        this.setVisible(false);
+        new Form_Order().setVisible(true);
+    }//GEN-LAST:event_MenuOrderActionPerformed
+
+    private void MenuCustomerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuCustomerActionPerformed
+        // TODO add your handling code here:
+        this.setVisible(false);
+        new Form_Customer().setVisible(true);
+    }//GEN-LAST:event_MenuCustomerActionPerformed
+
+    private void MenuStatsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuStatsActionPerformed
+        // TODO add your handling code here:
+        this.setVisible(false);
+        new Form_Stats().setVisible(true);
+    }//GEN-LAST:event_MenuStatsActionPerformed
 
     /**
      * @param args the command line arguments
@@ -457,21 +570,20 @@ public class Form_Stats extends javax.swing.JFrame {
         } catch (Exception e) {
         }
     }
-    
-    
+
     private void renderOrderRevenue() {
-         DefaultTableModel tableModel = (DefaultTableModel) table_revenue.getModel();
+        DefaultTableModel tableModel = (DefaultTableModel) table_revenue.getModel();
         tableModel.setRowCount(0);
         orderRevenues.clear();
-        
+
         try {
-             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             String fromDate = dateFormat.format(date_from.getDate());
             String toDate = dateFormat.format(date_to.getDate());
             orderRevenues = RevenueDB.getOrderRevenues(fromDate, toDate);
-            
+
             double totalMoney = 0;
-            
+
             for (Order item : orderRevenues) {
                 tableModel.addRow(new Object[]{
                     item.getOrderDate(),
@@ -479,7 +591,7 @@ public class Form_Stats extends javax.swing.JFrame {
                 });
                 totalMoney += item.getTotalPayment();
             }
-            
+
             label_total_money.setText(Utils.formatVNCurrency(totalMoney));
             table_product_revenue.setRowHeight(50);
         } catch (Exception e) {
@@ -495,10 +607,9 @@ public class Form_Stats extends javax.swing.JFrame {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             String fromDate = dateFormat.format(date_from.getDate());
             String toDate = dateFormat.format(date_to.getDate());
-            
 
             productRevenues = RevenueDB.getProductRevenue(fromDate, toDate);
-            
+
             double totalMoney = 0;
 
             for (ProductRevenue product : productRevenues) {
@@ -508,10 +619,10 @@ public class Form_Stats extends javax.swing.JFrame {
                     product.getQuantitySold(),
                     Utils.formatVNCurrency(product.getTotalAmount())
                 });
-                
+
                 totalMoney += product.getTotalAmount();
             }
-            
+
             label_total_money.setText(Utils.formatVNCurrency(totalMoney));
 
             table_product_revenue.setRowHeight(50);
@@ -541,8 +652,152 @@ public class Form_Stats extends javax.swing.JFrame {
                 renderProductRevenue();
                 break;
             case 1:
-               renderOrderRevenue();
+                renderOrderRevenue();
                 break;
+        }
+    }
+
+    private void printProductRevenuePDF() {
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("Chọn nơi lưu và tên tệp PDF");
+
+        // Hiển thị hộp thoại lưu tệp
+        int userSelection = fileChooser.showSaveDialog(null);
+
+        if (userSelection == JFileChooser.APPROVE_OPTION) {
+            File fileToSave = fileChooser.getSelectedFile();
+            String filePath = fileToSave.getAbsolutePath();
+
+            // Đảm bảo tệp có đuôi .pdf
+            if (!filePath.endsWith(".pdf")) {
+                filePath += ".pdf";
+            }
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            String fromDate = dateFormat.format(date_from.getDate());
+            String toDate = dateFormat.format(date_to.getDate());
+
+            PDFGenerator.createProductRevenue(filePath, productRevenues, fromDate, toDate);
+            JOptionPane.showMessageDialog(this, "In thành công");
+        }
+    }
+
+    private void printOrderRevenuePDF() {
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("Chọn nơi lưu và tên tệp PDF");
+
+        // Hiển thị hộp thoại lưu tệp
+        int userSelection = fileChooser.showSaveDialog(null);
+
+        if (userSelection == JFileChooser.APPROVE_OPTION) {
+            File fileToSave = fileChooser.getSelectedFile();
+            String filePath = fileToSave.getAbsolutePath();
+
+            // Đảm bảo tệp có đuôi .pdf
+            if (!filePath.endsWith(".pdf")) {
+                filePath += ".pdf";
+            }
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            String fromDate = dateFormat.format(date_from.getDate());
+            String toDate = dateFormat.format(date_to.getDate());
+
+            PDFGenerator.createOrderRevenue(filePath, orderRevenues, fromDate, toDate);
+            JOptionPane.showMessageDialog(this, "In thành công");
+        }
+    }
+
+    private void exportProductRevenueToExcel() {
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("Specify a file to save");
+
+        int userSelection = fileChooser.showSaveDialog(this);
+        if (userSelection == JFileChooser.APPROVE_OPTION) {
+            File fileToSave = fileChooser.getSelectedFile();
+            String filePath = fileToSave.getAbsolutePath();
+
+            if (!filePath.endsWith(".xlsx")) {
+                filePath += ".xlsx";
+            }
+
+            try {
+                XSSFWorkbook workBook = new XSSFWorkbook();
+
+                XSSFSheet Sheet = workBook.createSheet("products");
+
+                // Create the first row corresponding to the header
+                Row header = Sheet.createRow(0);
+                header.createCell(0).setCellValue("Mã sản phẩm");
+                header.createCell(1).setCellValue("Tên sản phẩm");
+                header.createCell(2).setCellValue("Số lượng bán");
+                header.createCell(3).setCellValue("Thành tiền");
+
+                if (productRevenues.size() == 0) {
+                    throw new IllegalStateException("Some data is missing");
+                }
+
+                for (int i = 0; i < productRevenues.size(); i++) {
+                    XSSFRow row = Sheet.createRow((short) i + 1);
+                    row.createCell(0).setCellValue(productRevenues.get(i).getId());
+                    row.createCell(1).setCellValue(productRevenues.get(i).getName());
+                    row.createCell(2).setCellValue(productRevenues.get(i).getQuantitySold());
+                    row.createCell(3).setCellValue(productRevenues.get(i).getTotalAmount());
+
+                }
+                
+                 try (FileOutputStream fileOut = new FileOutputStream(filePath)) {
+                    workBook.write(fileOut);
+                    JOptionPane.showMessageDialog(this, "Xuất excel thành công");
+               }
+
+            } catch (IOException ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(this, "Error occurred while exporting data");
+            }
+        }
+    }
+    
+    private void exportOrderRevenueToExcel() {
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("Specify a file to save");
+
+        int userSelection = fileChooser.showSaveDialog(this);
+        if (userSelection == JFileChooser.APPROVE_OPTION) {
+            File fileToSave = fileChooser.getSelectedFile();
+            String filePath = fileToSave.getAbsolutePath();
+
+            if (!filePath.endsWith(".xlsx")) {
+                filePath += ".xlsx";
+            }
+
+            try {
+                XSSFWorkbook workBook = new XSSFWorkbook();
+
+                XSSFSheet Sheet = workBook.createSheet("orders");
+
+                // Create the first row corresponding to the header
+                Row header = Sheet.createRow(0);
+                header.createCell(0).setCellValue("Thời gian");
+                header.createCell(1).setCellValue("Doanh thu");
+
+                if (orderRevenues.size() == 0) {
+                    throw new IllegalStateException("Some data is missing");
+                }
+
+                for (int i = 0; i < orderRevenues.size(); i++) {
+                    XSSFRow row = Sheet.createRow((short) i + 1);
+                    row.createCell(0).setCellValue(orderRevenues.get(i).getOrderDate());
+                    row.createCell(1).setCellValue(orderRevenues.get(i).getTotalPayment());
+
+                }
+                
+                 try (FileOutputStream fileOut = new FileOutputStream(filePath)) {
+                    workBook.write(fileOut);
+                    JOptionPane.showMessageDialog(this, "Xuất excel thành công");
+               }
+
+            } catch (IOException ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(this, "Error occurred while exporting data");
+            }
         }
     }
 

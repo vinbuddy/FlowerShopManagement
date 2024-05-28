@@ -84,7 +84,7 @@ public class RevenueDB {
 
         try {
             connection = DBConnection.getConnection();
-            String sql =  "SELECT TotalPayment, OrderDate FROM Orders WHERE OrderDate BETWEEN ? AND  ?";
+            String sql =  "SELECT OrderDate, SUM(TotalPayment) AS TotalPayment FROM Orders WHERE OrderDate BETWEEN ? AND ? GROUP BY OrderDate ORDER BY OrderDate;";
             stmt = connection.prepareStatement(sql);
             stmt.setString(1, fromDate);
                         stmt.setString(2, toDate);

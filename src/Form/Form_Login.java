@@ -49,8 +49,6 @@ public class Form_Login extends javax.swing.JFrame {
 
         jLabel2.setText("Mật khẩu");
 
-        btn_login.setBackground(new java.awt.Color(255, 173, 173));
-        btn_login.setForeground(new java.awt.Color(255, 255, 255));
         btn_login.setText("Đăng nhập");
         btn_login.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

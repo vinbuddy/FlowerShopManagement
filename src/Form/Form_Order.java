@@ -76,26 +76,61 @@ public class Form_Order extends javax.swing.JFrame {
         MenuAccount.setText("Tài khoản");
 
         jMenuItem1.setText("Đăng xuất");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
         MenuAccount.add(jMenuItem1);
 
         jMenuBar1.add(MenuAccount);
 
         MenuProduct.setText("Sản phẩm");
+        MenuProduct.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MenuProductActionPerformed(evt);
+            }
+        });
         jMenuBar1.add(MenuProduct);
 
         MenuSupplier.setText("Nhà cung cấp");
+        MenuSupplier.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MenuSupplierActionPerformed(evt);
+            }
+        });
         jMenuBar1.add(MenuSupplier);
 
         MenuDiscount.setText("Nhập hàng");
+        MenuDiscount.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MenuDiscountActionPerformed(evt);
+            }
+        });
         jMenuBar1.add(MenuDiscount);
 
         MenuOrder.setText("Đơn hàng");
+        MenuOrder.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MenuOrderActionPerformed(evt);
+            }
+        });
         jMenuBar1.add(MenuOrder);
 
         MenuCustomer.setText("Khách hàng");
+        MenuCustomer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MenuCustomerActionPerformed(evt);
+            }
+        });
         jMenuBar1.add(MenuCustomer);
 
         MenuStats.setText("Thống kê");
+        MenuStats.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MenuStatsActionPerformed(evt);
+            }
+        });
         jMenuBar1.add(MenuStats);
 
         setJMenuBar(jMenuBar1);
@@ -138,6 +173,48 @@ public class Form_Order extends javax.swing.JFrame {
             this.setVisible(false);
         }
     }//GEN-LAST:event_table_orderMouseClicked
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        // TODO add your handling code here:
+        this.setVisible(false);
+        new Form_Login().setVisible(true);
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void MenuProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuProductActionPerformed
+        // TODO add your handling code here:
+        this.setVisible(false);
+        new Form_Product().setVisible(true);
+    }//GEN-LAST:event_MenuProductActionPerformed
+
+    private void MenuSupplierActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuSupplierActionPerformed
+        // TODO add your handling code here:
+        this.setVisible(false);
+        new Form_Supplier().setVisible(true);
+    }//GEN-LAST:event_MenuSupplierActionPerformed
+
+    private void MenuDiscountActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuDiscountActionPerformed
+        // TODO add your handling code here:
+        this.setVisible(false);
+        new Form_ImportProduct().setVisible(true);
+    }//GEN-LAST:event_MenuDiscountActionPerformed
+
+    private void MenuOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuOrderActionPerformed
+        // TODO add your handling code here:
+        this.setVisible(false);
+        new Form_Order().setVisible(true);
+    }//GEN-LAST:event_MenuOrderActionPerformed
+
+    private void MenuCustomerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuCustomerActionPerformed
+        // TODO add your handling code here:
+        this.setVisible(false);
+        new Form_Customer().setVisible(true);
+    }//GEN-LAST:event_MenuCustomerActionPerformed
+
+    private void MenuStatsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuStatsActionPerformed
+        // TODO add your handling code here:
+        this.setVisible(false);
+        new Form_Stats().setVisible(true);
+    }//GEN-LAST:event_MenuStatsActionPerformed
 
     private void renderOrderTable() {
 //        table_order.setEnabled(false);

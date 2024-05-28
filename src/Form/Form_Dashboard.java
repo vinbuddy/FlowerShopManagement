@@ -10,7 +10,7 @@ import DBContext.ProductDB;
 import Model.Category;
 import Model.Order;
 import Model.Product;
-import Shared.InvoiceGenerator;
+import Shared.PDFGenerator;
 import java.awt.Component;
 import java.awt.Image;
 import java.io.File;
@@ -216,26 +216,61 @@ public class Form_Dashboard extends javax.swing.JFrame {
         MenuAccount.setText("Tài khoản");
 
         jMenuItem1.setText("Đăng xuất");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
         MenuAccount.add(jMenuItem1);
 
         jMenuBar1.add(MenuAccount);
 
         MenuProduct.setText("Sản phẩm");
+        MenuProduct.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MenuProductActionPerformed(evt);
+            }
+        });
         jMenuBar1.add(MenuProduct);
 
         MenuSupplier.setText("Nhà cung cấp");
+        MenuSupplier.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MenuSupplierActionPerformed(evt);
+            }
+        });
         jMenuBar1.add(MenuSupplier);
 
         MenuImportProduct.setText("Nhập hàng");
+        MenuImportProduct.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MenuImportProductActionPerformed(evt);
+            }
+        });
         jMenuBar1.add(MenuImportProduct);
 
         MenuOrder.setText("Đơn hàng");
+        MenuOrder.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MenuOrderActionPerformed(evt);
+            }
+        });
         jMenuBar1.add(MenuOrder);
 
         MenuCustomer.setText("Khách hàng");
+        MenuCustomer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MenuCustomerActionPerformed(evt);
+            }
+        });
         jMenuBar1.add(MenuCustomer);
 
         MenuStats.setText("Thống kê");
+        MenuStats.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MenuStatsActionPerformed(evt);
+            }
+        });
         jMenuBar1.add(MenuStats);
 
         setJMenuBar(jMenuBar1);
@@ -349,6 +384,48 @@ public class Form_Dashboard extends javax.swing.JFrame {
     private void btn_checkoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_checkoutActionPerformed
         handleCheckout();
     }//GEN-LAST:event_btn_checkoutActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        // TODO add your handling code here:
+        this.setVisible(false);
+        new Form_Login().setVisible(true);
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void MenuProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuProductActionPerformed
+        // TODO add your handling code here:
+        this.setVisible(false);
+        new Form_Product().setVisible(true);
+    }//GEN-LAST:event_MenuProductActionPerformed
+
+    private void MenuSupplierActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuSupplierActionPerformed
+        // TODO add your handling code here:
+        this.setVisible(false);
+        new Form_Supplier().setVisible(true);
+    }//GEN-LAST:event_MenuSupplierActionPerformed
+
+    private void MenuImportProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuImportProductActionPerformed
+        // TODO add your handling code here:
+        this.setVisible(false);
+        new Form_ImportProduct().setVisible(true);
+    }//GEN-LAST:event_MenuImportProductActionPerformed
+
+    private void MenuOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuOrderActionPerformed
+        // TODO add your handling code here:
+        this.setVisible(false);
+        new Form_Order().setVisible(true);
+    }//GEN-LAST:event_MenuOrderActionPerformed
+
+    private void MenuCustomerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuCustomerActionPerformed
+        // TODO add your handling code here:
+        this.setVisible(false);
+        new Form_Customer().setVisible(true);
+    }//GEN-LAST:event_MenuCustomerActionPerformed
+
+    private void MenuStatsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuStatsActionPerformed
+        // TODO add your handling code here:
+        this.setVisible(false);
+        new Form_Stats().setVisible(true);
+    }//GEN-LAST:event_MenuStatsActionPerformed
     
     
     // Helper
@@ -496,7 +573,7 @@ public class Form_Dashboard extends javax.swing.JFrame {
                 filePath += ".pdf";
             }
             
-            InvoiceGenerator.createOrderInvoice(filePath, order, selectedProducts);
+            PDFGenerator.createOrderInvoice(filePath, order, selectedProducts);
         }
     }
 
