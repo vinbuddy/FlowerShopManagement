@@ -8,6 +8,7 @@ import DBContext.ProductDB;
 import Model.Product;
 import java.math.BigDecimal;
 import javax.swing.JOptionPane;
+import javax.swing.UIManager;
 
 /**
  *
@@ -220,6 +221,12 @@ public class Form_Discount extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
+                try {
+                    UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+
+                } catch (Exception e) {
+
+                }
                 new Form_Discount(null).setVisible(true);
             }
         });

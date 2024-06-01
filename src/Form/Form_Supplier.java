@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
+import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -55,6 +56,7 @@ public class Form_Supplier extends javax.swing.JFrame {
         jMenuBar1 = new javax.swing.JMenuBar();
         MenuAccount = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
+        jMenu1 = new javax.swing.JMenu();
         MenuProduct = new javax.swing.JMenu();
         MenuSupplier = new javax.swing.JMenu();
         MenuImportProduct = new javax.swing.JMenu();
@@ -119,6 +121,11 @@ public class Form_Supplier extends javax.swing.JFrame {
         MenuAccount.setText("Tài khoản");
 
         jMenuItem1.setText("Đăng xuất");
+        jMenuItem1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenuItem1MouseClicked(evt);
+            }
+        });
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem1ActionPerformed(evt);
@@ -128,7 +135,20 @@ public class Form_Supplier extends javax.swing.JFrame {
 
         jMenuBar1.add(MenuAccount);
 
+        jMenu1.setText("Trang chủ");
+        jMenu1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenu1MouseClicked(evt);
+            }
+        });
+        jMenuBar1.add(jMenu1);
+
         MenuProduct.setText("Sản phẩm");
+        MenuProduct.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                MenuProductMouseClicked(evt);
+            }
+        });
         MenuProduct.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 MenuProductActionPerformed(evt);
@@ -137,6 +157,11 @@ public class Form_Supplier extends javax.swing.JFrame {
         jMenuBar1.add(MenuProduct);
 
         MenuSupplier.setText("Nhà cung cấp");
+        MenuSupplier.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                MenuSupplierMouseClicked(evt);
+            }
+        });
         MenuSupplier.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 MenuSupplierActionPerformed(evt);
@@ -145,6 +170,11 @@ public class Form_Supplier extends javax.swing.JFrame {
         jMenuBar1.add(MenuSupplier);
 
         MenuImportProduct.setText("Nhập hàng");
+        MenuImportProduct.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                MenuImportProductMouseClicked(evt);
+            }
+        });
         MenuImportProduct.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 MenuImportProductActionPerformed(evt);
@@ -153,6 +183,11 @@ public class Form_Supplier extends javax.swing.JFrame {
         jMenuBar1.add(MenuImportProduct);
 
         MenuOrder.setText("Đơn hàng");
+        MenuOrder.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                MenuOrderMouseClicked(evt);
+            }
+        });
         MenuOrder.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 MenuOrderActionPerformed(evt);
@@ -161,6 +196,11 @@ public class Form_Supplier extends javax.swing.JFrame {
         jMenuBar1.add(MenuOrder);
 
         MenuCustomer.setText("Khách hàng");
+        MenuCustomer.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                MenuCustomerMouseClicked(evt);
+            }
+        });
         MenuCustomer.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 MenuCustomerActionPerformed(evt);
@@ -169,6 +209,11 @@ public class Form_Supplier extends javax.swing.JFrame {
         jMenuBar1.add(MenuCustomer);
 
         MenuStats.setText("Thống kê");
+        MenuStats.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                MenuStatsMouseClicked(evt);
+            }
+        });
         MenuStats.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 MenuStatsActionPerformed(evt);
@@ -346,6 +391,54 @@ public class Form_Supplier extends javax.swing.JFrame {
         new Form_Stats().setVisible(true);
     }//GEN-LAST:event_MenuStatsActionPerformed
 
+    private void jMenuItem1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuItem1MouseClicked
+        // TODO add your handling code here:
+        this.setVisible(false);
+        new Form_Login().setVisible(true);
+    }//GEN-LAST:event_jMenuItem1MouseClicked
+
+    private void MenuProductMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MenuProductMouseClicked
+        // TODO add your handling code here:
+        this.setVisible(false);
+        new Form_Product().setVisible(true);
+    }//GEN-LAST:event_MenuProductMouseClicked
+
+    private void MenuSupplierMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MenuSupplierMouseClicked
+        // TODO add your handling code here:
+        this.setVisible(false);
+        new Form_Supplier().setVisible(true);
+    }//GEN-LAST:event_MenuSupplierMouseClicked
+
+    private void MenuImportProductMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MenuImportProductMouseClicked
+        // TODO add your handling code here:
+        this.setVisible(false);
+        new Form_ImportProductList().setVisible(true);
+    }//GEN-LAST:event_MenuImportProductMouseClicked
+
+    private void MenuOrderMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MenuOrderMouseClicked
+        // TODO add your handling code here:
+        this.setVisible(false);
+        new Form_Order().setVisible(true);
+    }//GEN-LAST:event_MenuOrderMouseClicked
+
+    private void MenuCustomerMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MenuCustomerMouseClicked
+        // TODO add your handling code here:
+        this.setVisible(false);
+        new Form_Customer().setVisible(true);
+    }//GEN-LAST:event_MenuCustomerMouseClicked
+
+    private void MenuStatsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MenuStatsMouseClicked
+        // TODO add your handling code here:
+        this.setVisible(false);
+        new Form_Stats().setVisible(true);
+    }//GEN-LAST:event_MenuStatsMouseClicked
+
+    private void jMenu1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu1MouseClicked
+        // TODO add your handling code here:
+          this.setVisible(false);
+        new Form_Dashboard().setVisible(true);
+    }//GEN-LAST:event_jMenu1MouseClicked
+
     private void clearInputs() {
         txt_name.setText("");
         txt_phone.setText("");
@@ -434,6 +527,12 @@ public class Form_Supplier extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
+                try {
+                    UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+
+                } catch (Exception e) {
+
+                }
                 new Form_Supplier().setVisible(true);
             }
         });
@@ -453,6 +552,7 @@ public class Form_Supplier extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JScrollPane jScrollPane1;

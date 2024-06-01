@@ -7,6 +7,7 @@ package Form;
 import DBContext.UserDB;
 import Model.User;
 import javax.swing.JOptionPane;
+import javax.swing.UIManager;
 
 /**
  *
@@ -157,6 +158,12 @@ public class Form_Login extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
+                try {
+                    UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+
+                } catch (Exception e) {
+
+                }
                 new Form_Login().setVisible(true);
             }
         });

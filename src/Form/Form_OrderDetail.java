@@ -16,6 +16,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.swing.UIManager;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
@@ -81,15 +82,7 @@ public class Form_OrderDetail extends javax.swing.JFrame {
         label_total_payment = new javax.swing.JLabel();
         combobox_order_status = new javax.swing.JComboBox<>();
         btn_update_order_status = new javax.swing.JButton();
-        jMenuBar1 = new javax.swing.JMenuBar();
-        MenuAccount = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
-        MenuProduct = new javax.swing.JMenu();
-        MenuSupplier = new javax.swing.JMenu();
-        MenuImportProduct = new javax.swing.JMenu();
-        MenuOrder = new javax.swing.JMenu();
-        MenuCustomer = new javax.swing.JMenu();
-        MenuStats = new javax.swing.JMenu();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -292,67 +285,12 @@ public class Form_OrderDetail extends javax.swing.JFrame {
             }
         });
 
-        MenuAccount.setText("Tài khoản");
-
-        jMenuItem1.setText("Đăng xuất");
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+        jButton1.setText("Quay lại");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem1ActionPerformed(evt);
+                jButton1ActionPerformed(evt);
             }
         });
-        MenuAccount.add(jMenuItem1);
-
-        jMenuBar1.add(MenuAccount);
-
-        MenuProduct.setText("Sản phẩm");
-        MenuProduct.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                MenuProductActionPerformed(evt);
-            }
-        });
-        jMenuBar1.add(MenuProduct);
-
-        MenuSupplier.setText("Nhà cung cấp");
-        MenuSupplier.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                MenuSupplierActionPerformed(evt);
-            }
-        });
-        jMenuBar1.add(MenuSupplier);
-
-        MenuImportProduct.setText("Nhập hàng");
-        MenuImportProduct.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                MenuImportProductActionPerformed(evt);
-            }
-        });
-        jMenuBar1.add(MenuImportProduct);
-
-        MenuOrder.setText("Đơn hàng");
-        MenuOrder.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                MenuOrderActionPerformed(evt);
-            }
-        });
-        jMenuBar1.add(MenuOrder);
-
-        MenuCustomer.setText("Khách hàng");
-        MenuCustomer.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                MenuCustomerActionPerformed(evt);
-            }
-        });
-        jMenuBar1.add(MenuCustomer);
-
-        MenuStats.setText("Thống kê");
-        MenuStats.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                MenuStatsActionPerformed(evt);
-            }
-        });
-        jMenuBar1.add(MenuStats);
-
-        setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -361,7 +299,6 @@ public class Form_OrderDetail extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -372,15 +309,21 @@ public class Form_OrderDetail extends javax.swing.JFrame {
                             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(18, 18, 18)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 516, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 516, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jButton1)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel1)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 46, Short.MAX_VALUE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(14, 14, 14)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -415,47 +358,11 @@ public class Form_OrderDetail extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btn_update_order_statusActionPerformed
 
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        // TODO add your handling code here:
-        this.setVisible(false);
-        new Form_Login().setVisible(true);
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
-
-    private void MenuProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuProductActionPerformed
-        // TODO add your handling code here:
-        this.setVisible(false);
-        new Form_Product().setVisible(true);
-    }//GEN-LAST:event_MenuProductActionPerformed
-
-    private void MenuSupplierActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuSupplierActionPerformed
-        // TODO add your handling code here:
-        this.setVisible(false);
-        new Form_Supplier().setVisible(true);
-    }//GEN-LAST:event_MenuSupplierActionPerformed
-
-    private void MenuImportProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuImportProductActionPerformed
-        // TODO add your handling code here:
-        this.setVisible(false);
-        new Form_ImportProduct().setVisible(true);
-    }//GEN-LAST:event_MenuImportProductActionPerformed
-
-    private void MenuOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuOrderActionPerformed
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         this.setVisible(false);
         new Form_Order().setVisible(true);
-    }//GEN-LAST:event_MenuOrderActionPerformed
-
-    private void MenuCustomerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuCustomerActionPerformed
-        // TODO add your handling code here:
-        this.setVisible(false);
-        new Form_Customer().setVisible(true);
-    }//GEN-LAST:event_MenuCustomerActionPerformed
-
-    private void MenuStatsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuStatsActionPerformed
-        // TODO add your handling code here:
-        this.setVisible(false);
-        new Form_Stats().setVisible(true);
-    }//GEN-LAST:event_MenuStatsActionPerformed
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     private void renderOrderInfo() {
         label_order_id.setText(String.valueOf(order.getId()));
@@ -556,21 +463,21 @@ public class Form_OrderDetail extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
+                try {
+                    UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+
+                } catch (Exception e) {
+
+                }
                 new Form_OrderDetail(null).setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JMenu MenuAccount;
-    private javax.swing.JMenu MenuCustomer;
-    private javax.swing.JMenu MenuImportProduct;
-    private javax.swing.JMenu MenuOrder;
-    private javax.swing.JMenu MenuProduct;
-    private javax.swing.JMenu MenuStats;
-    private javax.swing.JMenu MenuSupplier;
     private javax.swing.JButton btn_update_order_status;
     private javax.swing.JComboBox<String> combobox_order_status;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel12;
@@ -583,8 +490,6 @@ public class Form_OrderDetail extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;

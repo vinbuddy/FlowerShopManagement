@@ -58,6 +58,7 @@ public class Form_AddEditProduct extends javax.swing.JFrame {
             renderCurrentProduct();
             btn_add_edit_product.setIcon(new ImageIcon("src/Icons/Edit.png"));
             btn_add_edit_product.setText("Chỉnh sửa sản phẩm");
+            label_form_name.setText("Chỉnh sửa sản phẩm");
         }
 
     }
@@ -72,7 +73,7 @@ public class Form_AddEditProduct extends javax.swing.JFrame {
     private void initComponents() {
 
         jSeparator1 = new javax.swing.JSeparator();
-        jLabel1 = new javax.swing.JLabel();
+        label_form_name = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         txt_name = new javax.swing.JTextField();
@@ -96,21 +97,12 @@ public class Form_AddEditProduct extends javax.swing.JFrame {
         btn_upload_image = new javax.swing.JButton();
         btn_add_edit_product = new javax.swing.JButton();
         btn_back = new javax.swing.JButton();
-        jMenuBar1 = new javax.swing.JMenuBar();
-        MenuAccount = new javax.swing.JMenu();
-        menu_item_logout = new javax.swing.JMenuItem();
-        MenuProduct = new javax.swing.JMenu();
-        MenuSupplier = new javax.swing.JMenu();
-        MenuImportProduct = new javax.swing.JMenu();
-        MenuOrder = new javax.swing.JMenu();
-        MenuCustomer = new javax.swing.JMenu();
-        MenuStats = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 173, 173));
-        jLabel1.setText("Thêm sản phẩm");
+        label_form_name.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        label_form_name.setForeground(new java.awt.Color(255, 173, 173));
+        label_form_name.setText("Thêm sản phẩm");
 
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(102, 102, 102)));
         jPanel1.setForeground(new java.awt.Color(153, 153, 153));
@@ -261,68 +253,6 @@ public class Form_AddEditProduct extends javax.swing.JFrame {
             }
         });
 
-        MenuAccount.setText("Tài khoản");
-        MenuAccount.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                MenuAccountMouseClicked(evt);
-            }
-        });
-
-        menu_item_logout.setText("Đăng xuất");
-        MenuAccount.add(menu_item_logout);
-
-        jMenuBar1.add(MenuAccount);
-
-        MenuProduct.setText("Sản phẩm");
-        MenuProduct.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                MenuProductActionPerformed(evt);
-            }
-        });
-        jMenuBar1.add(MenuProduct);
-
-        MenuSupplier.setText("Nhà cung cấp");
-        MenuSupplier.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                MenuSupplierActionPerformed(evt);
-            }
-        });
-        jMenuBar1.add(MenuSupplier);
-
-        MenuImportProduct.setText("Nhập hàng");
-        MenuImportProduct.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                MenuImportProductActionPerformed(evt);
-            }
-        });
-        jMenuBar1.add(MenuImportProduct);
-
-        MenuOrder.setText("Đơn hàng");
-        MenuOrder.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                MenuOrderActionPerformed(evt);
-            }
-        });
-        jMenuBar1.add(MenuOrder);
-
-        MenuCustomer.setText("Khách hàng");
-        MenuCustomer.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                MenuCustomerActionPerformed(evt);
-            }
-        });
-        jMenuBar1.add(MenuCustomer);
-
-        MenuStats.setText("Thống kê");
-        MenuStats.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                MenuStatsActionPerformed(evt);
-            }
-        });
-        jMenuBar1.add(MenuStats);
-
-        setJMenuBar(jMenuBar1);
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -342,14 +272,14 @@ public class Form_AddEditProduct extends javax.swing.JFrame {
                                 .addComponent(btn_add_edit_product, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addContainerGap())
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
+                        .addComponent(label_form_name)
                         .addGap(22, 22, 22))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
+                .addComponent(label_form_name)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
@@ -361,7 +291,7 @@ public class Form_AddEditProduct extends javax.swing.JFrame {
                             .addComponent(btn_back, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btn_add_edit_product, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 530, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 6, Short.MAX_VALUE))
+                .addGap(0, 29, Short.MAX_VALUE))
         );
 
         pack();
@@ -442,43 +372,6 @@ public class Form_AddEditProduct extends javax.swing.JFrame {
         new Form_Product().setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_btn_backActionPerformed
-
-    private void MenuAccountMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MenuAccountMouseClicked
-        // TODO add your handling code here:
-        this.setVisible(false);
-        new Form_Login().setVisible(true);
-    }//GEN-LAST:event_MenuAccountMouseClicked
-
-    private void MenuProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuProductActionPerformed
-       this.setVisible(false);
-       new Form_Product().setVisible(true);
-    }//GEN-LAST:event_MenuProductActionPerformed
-
-    private void MenuSupplierActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuSupplierActionPerformed
-        this.setVisible(false);
-       new Form_Supplier().setVisible(true);
-    }//GEN-LAST:event_MenuSupplierActionPerformed
-
-    private void MenuImportProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuImportProductActionPerformed
-        this.setVisible(false);
-       new Form_ImportProduct().setVisible(true);
-    }//GEN-LAST:event_MenuImportProductActionPerformed
-
-    private void MenuOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuOrderActionPerformed
-        this.setVisible(false);
-       new Form_Order().setVisible(true);
-    }//GEN-LAST:event_MenuOrderActionPerformed
-
-    private void MenuCustomerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuCustomerActionPerformed
-        this.setVisible(false);
-       new Form_Customer().setVisible(true);
-        
-    }//GEN-LAST:event_MenuCustomerActionPerformed
-
-    private void MenuStatsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuStatsActionPerformed
-       this.setVisible(false);
-       new Form_Stats().setVisible(true);
-    }//GEN-LAST:event_MenuStatsActionPerformed
 
     private BufferedImage resize(String imgPath, int width, int height) {
         try {
@@ -804,13 +697,6 @@ public class Form_AddEditProduct extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JMenu MenuAccount;
-    private javax.swing.JMenu MenuCustomer;
-    private javax.swing.JMenu MenuImportProduct;
-    private javax.swing.JMenu MenuOrder;
-    private javax.swing.JMenu MenuProduct;
-    private javax.swing.JMenu MenuStats;
-    private javax.swing.JMenu MenuSupplier;
     private javax.swing.JButton btn_add_category;
     private javax.swing.JButton btn_add_edit_product;
     private javax.swing.JButton btn_back;
@@ -818,7 +704,6 @@ public class Form_AddEditProduct extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> combobox_category;
     private javax.swing.JComboBox<String> combobox_status;
     private javax.swing.JComboBox<String> combobox_supplier;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -826,14 +711,13 @@ public class Form_AddEditProduct extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JLabel label_form_name;
     private javax.swing.JLabel label_image;
     private javax.swing.JList<String> list_category;
-    private javax.swing.JMenuItem menu_item_logout;
     private javax.swing.JSpinner spinner_quantity;
     private javax.swing.JTextArea text_area_description;
     private javax.swing.JTextField txt_name;
